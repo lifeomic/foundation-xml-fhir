@@ -180,10 +180,8 @@ def main():
                         help='The ID of the subject/patient to link the resources to')
     parser.add_argument('-o, --output', dest='out_file',
                         required=True, help='Path to write the FHIR JSON resources')
-    parser.add_argument('-o, --output', dest='out_file',
-                        required=True, help='Path to write the FHIR JSON resources')
     parser.add_argument('-f, --file', dest='file_url',
-                        required=True, help='The URL to the PDF Report in the PHC')
+                        required=False, help='The URL to the PDF Report in the PHC')
 
     args = parser.parse_args()
 
