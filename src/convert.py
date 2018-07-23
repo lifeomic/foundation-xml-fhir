@@ -14,6 +14,165 @@ def save_json(fhir_resources, out_file):
     with open(out_file, 'wb') as fd:
         json.dump(fhir_resources, fd, indent=4)
 
+
+def create_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+    def create(variant_dict):
+        observation_id = str(uuid.uuid4())
+        position_value = variant_dict['@position']
+        region, position = position_value.split(':')
+
+        observation = {
+            'resourceType': 'Observation',
+            'meta': {
+                'tag': [
+                    {
+                        'system': 'http://lifeomic.com/fhir/dataset',
+                        'code': project_id
+                    }
+                ]
+            },
+            'status': variant_dict['@status'],
+            'subject': {
+                'reference': 'Patient/{}'.format(subject_id)
+            },
+            'specimen': {
+                'display': specimen_name,
+                'reference': 'Specimen/{}'.format(specimen_id)
+            },
+            'extension': [
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://www.genenames.org',
+                                'code': '1100',
+                                'display': variant_dict['@gene']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsDNASequenceVariantName',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48004-6',
+                                'display': variant_dict['@cds-effect'].replace('&gt;', '>')
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAminoAcidChangeType',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://snomed.info/sct',
+                                'code': 'LL380-7',
+                                'display': variant_dict['@functional-effect']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAminoAcidChangeName',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48005-3',
+                                'display': variant_dict['@protein-effect']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAllelicFrequency',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '81258-6',
+                                'display': variant_dict['@allele-fraction']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48002-0',
+                                'display': 'somatic'
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                    'valueReference': {
+                        'reference': 'Sequence/{}'.format(sequence_id)
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48001-2',
+                                'display': position
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAChromosome',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '47999-8',
+                                'display': region
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsTotalReadDepth',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '82121-5',
+                                'display': variant_dict['@depth']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsTranscriptID',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '51958-7',
+                                'display': variant_dict['@transcript']
+                            }
+                        ]
+                    }
+                }
+            ],
+            'id': observation_id
+        }
+        return observation
+    return create
+
+
 def create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, file_url=None):
     report_id = str(uuid.uuid4())
 
@@ -161,11 +320,24 @@ def process(results_payload_dict, project_id, subject_id, file_url=None):
 
     specimen, specimen_id, specimen_name = create_specimen(
         results_payload_dict, project_id, subject_id)
-    sequence, _ = create_sequence(project_id, subject_id, specimen_id, specimen_name)
-    report = create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, file_url)
+    sequence, sequence_id = create_sequence(
+        project_id, subject_id, specimen_id, specimen_name)
+    report = create_report(results_payload_dict, project_id,
+                           subject_id, specimen_id, specimen_name, file_url)
+
+    observations = []
+    if ('short-variants' in results_payload_dict['variant-report'].keys() and
+            'short-variant' in results_payload_dict['variant-report']['short-variants'].keys()):
+        observations = list(map(create_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id),
+                                results_payload_dict['variant-report']['short-variants']['short-variant']))
+
+    report['result'] = [{'reference': 'Observation/{}'.format(x['id'])} for x in observations]
+    sequence['variant'] = [{'reference': 'Observation/{}'.format(x['id'])} for x in observations]
+
     fhir_resources.append(specimen)
     fhir_resources.append(sequence)
     fhir_resources.append(report)
+    fhir_resources = fhir_resources + observations
     return fhir_resources
 
 
@@ -191,5 +363,5 @@ def main():
     save_json(fhir_resources, args.out_file)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

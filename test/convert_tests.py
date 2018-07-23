@@ -2,13 +2,6 @@ from unittest import TestCase
 from src.convert import process
 
 results_payload_dict = {
-    'variant-report': {
-        'samples': {
-            'sample': {
-                '@name': 'sample1'
-            }
-        }
-    },
     'FinalReport': {
         'PMI': {
             'LastName': 'doe',
@@ -22,12 +15,33 @@ results_payload_dict = {
         'Sample': {
             'TestType': 'Test 1'
         }
+    },
+    'variant-report': {
+        'samples': {
+            'sample': {
+                '@name': 'sample1'
+            }
+        },
+        'short-variants': [
+            {
+                '@gene': 'gene1',
+                '@cds-effect': '229C&gt;A',
+                '@functional-effect': 'missense',
+                '@allele-fraction': 0.488,
+                '@position': 'chr1:100',
+                '@depth': 200,
+                '@transcript': 'NM_001',
+                '@status': 'known',
+                '@protein-effect': 'R77S'
+            }
+        ]
     }
 }
 
+
 class ConvertTest(TestCase):
     def test_convert_with_subject(self):
-        self.maxDiff = 1200
+        self.maxDiff = None
         fhir_resources = process(results_payload_dict, 'project1', 'subject1')
         specimen = fhir_resources[0]
         self.assertDictEqual(specimen, {
@@ -52,6 +66,61 @@ class ConvertTest(TestCase):
         })
 
         sequence = fhir_resources[1]
+        observation = fhir_resources[3]
+
+        self.assertDictEqual(observation, {
+            'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
+                           'valueCodeableConcept': {'coding': [{'code': '1100',
+                                                                'display': 'gene1',
+                                                                'system': 'http://www.genenames.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsDNASequenceVariantName',
+                           'valueCodeableConcept': {'coding': [{'code': '48004-6',
+                                                                'display': '229C>A',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAminoAcidChangeType',
+                           'valueCodeableConcept': {'coding': [{'code': 'LL380-7',
+                                                                'display': 'missense',
+                                                                'system': 'http://snomed.info/sct'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAminoAcidChangeName',
+                           'valueCodeableConcept': {'coding': [{'code': '48005-3',
+                                                                'display': 'R77S',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAllelicFrequency',
+                           'valueCodeableConcept': {'coding': [{'code': '81258-6',
+                                                                'display': 0.488,
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass',
+                           'valueCodeableConcept': {'coding': [{'code': '48002-0',
+                                                                'display': 'somatic',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
+                           'valueCodeableConcept': {'coding': [{'code': '48001-2',
+                                                                'display': '100',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAChromosome',
+                           'valueCodeableConcept': {'coding': [{'code': '47999-8',
+                                                                'display': 'chr1',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsTotalReadDepth',
+                           'valueCodeableConcept': {'coding': [{'code': '82121-5',
+                                                                'display': 200,
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsTranscriptID',
+                           'valueCodeableConcept': {'coding': [{'code': '51958-7',
+                                                                'display': 'NM_001',
+                                                                'system': 'http://loinc.org'}]}}],
+            'id': observation['id'],
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'}]},
+            'resourceType': 'Observation',
+            'specimen': {'display': 'sample1',
+                         'reference': 'Specimen/{}'.format(specimen['id'])},
+            'status': 'known',
+            'subject': {'reference': 'Patient/subject1'}
+        })
+
         self.assertDictEqual(sequence, {
             'resourceType': 'Sequence',
             'type': 'dna',
@@ -74,12 +143,16 @@ class ConvertTest(TestCase):
                 'genomeBuild': 'GRCh37'
             },
             'id': sequence['id'],
-            'variant': []
+            'variant': [
+                {
+                    'reference': 'Observation/{}'.format(observation['id'])
+                }
+            ]
         })
 
         report = fhir_resources[2]
         self.assertDictEqual(report, {
-           'resourceType': 'DiagnosticReport',
+            'resourceType': 'DiagnosticReport',
             'meta': {
                 'tag': [
                     {
@@ -108,16 +181,20 @@ class ConvertTest(TestCase):
                 'display': 'sample1',
                 'reference': 'Specimen/{}'.format(specimen['id'])
             },
-            'result': [],
+            'result': [
+                {
+                    'reference': 'Observation/{}'.format(observation['id'])
+                }
+            ],
             'id': report['id']
         })
 
     def test_convert_with_no_subject(self):
         fhir_resources = process(results_payload_dict, 'project1', None)
-        self.assertEquals(len(fhir_resources), 4)
+        self.assertEquals(len(fhir_resources), 5)
         subject = fhir_resources[0]
         self.assertDictEqual(subject, {
-           'resourceType': 'Patient',
+            'resourceType': 'Patient',
             'meta': {
                 'tag': [
                     {
@@ -146,9 +223,14 @@ class ConvertTest(TestCase):
         })
 
         specimen = fhir_resources[1]
-        self.assertEquals(specimen['subject']['reference'], 'Patient/{}'.format(subject['id']))
+        self.assertEquals(specimen['subject']['reference'],
+                          'Patient/{}'.format(subject['id']))
         sequence = fhir_resources[2]
-        self.assertEquals(sequence['patient']['reference'], 'Patient/{}'.format(subject['id']))
+        self.assertEquals(sequence['patient']['reference'],
+                          'Patient/{}'.format(subject['id']))
         report = fhir_resources[3]
-        self.assertEquals(report['subject']['reference'], 'Patient/{}'.format(subject['id']))
-
+        self.assertEquals(report['subject']['reference'],
+                          'Patient/{}'.format(subject['id']))
+        observation = fhir_resources[4]
+        self.assertEquals(observation['subject']['reference'],
+                          'Patient/{}'.format(subject['id']))
