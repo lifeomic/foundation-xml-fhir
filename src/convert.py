@@ -14,6 +14,52 @@ def save_json(fhir_resources, out_file):
     with open(out_file, 'wb') as fd:
         json.dump(fhir_resources, fd, indent=4)
 
+def create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, file_url=None):
+    report_id = str(uuid.uuid4())
+
+    report = {
+        'resourceType': 'DiagnosticReport',
+        'meta': {
+            'tag': [
+                {
+                    'system': 'http://lifeomic.com/fhir/dataset',
+                    'code': project_id
+                }
+            ]
+        },
+        'extension': [
+            {
+                'url': 'http://hl7.org/fhir/StructureDefinition/DiagnosticReport-geneticsAssessedCondition',
+                'valueReference': {
+                    'reference': results_payload_dict['FinalReport']['PMI']['SubmittedDiagnosis']
+                }
+            }
+        ],
+        'status': 'final',
+        'code': {
+            'test': results_payload_dict['FinalReport']['Sample']['TestType']
+        },
+        'issued': results_payload_dict['FinalReport']['PMI']['CollDate'],
+        'subject': {
+            'reference': 'Patient/{}'.format(subject_id)
+        },
+        'specimen': {
+            'display': specimen_name,
+            'reference': 'Specimen/{}'.format(specimen_id)
+        },
+        'result': [],
+        'id': report_id
+    }
+
+    if file_url is not None:
+        report['presentedForm'] = {
+            'url': file_url,
+            'contentType': 'application/pdf',
+            'title': results_payload_dict['FinalReport']['Sample']['TestType']
+        }
+
+    return report
+
 
 def create_subject(results_payload_dict, project_id):
     subject_id = str(uuid.uuid4())
@@ -107,7 +153,7 @@ def create_specimen(results_payload_dict, project_id, subject_id):
     return specimen, specimen_id, specimen_name
 
 
-def process(results_payload_dict, project_id, subject_id):
+def process(results_payload_dict, project_id, subject_id, file_url=None):
     fhir_resources = []
     if subject_id is None:
         subject, subject_id = create_subject(results_payload_dict, project_id)
@@ -116,8 +162,10 @@ def process(results_payload_dict, project_id, subject_id):
     specimen, specimen_id, specimen_name = create_specimen(
         results_payload_dict, project_id, subject_id)
     sequence, _ = create_sequence(project_id, subject_id, specimen_id, specimen_name)
+    report = create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, file_url)
     fhir_resources.append(specimen)
     fhir_resources.append(sequence)
+    fhir_resources.append(report)
     return fhir_resources
 
 
@@ -132,12 +180,16 @@ def main():
                         help='The ID of the subject/patient to link the resources to')
     parser.add_argument('-o, --output', dest='out_file',
                         required=True, help='Path to write the FHIR JSON resources')
+    parser.add_argument('-o, --output', dest='out_file',
+                        required=True, help='Path to write the FHIR JSON resources')
+    parser.add_argument('-f, --file', dest='file_url',
+                        required=True, help='The URL to the PDF Report in the PHC')
 
     args = parser.parse_args()
 
     xml_dict = read_xml(args.xml_file)
     fhir_resources = process(xml_dict['rr:ResultsReport']['rr:ResultsPayload'],
-                             args.project_id, args.subject_id)
+                             args.project_id, args.subject_id, args.file_url)
     save_json(fhir_resources, args.out_file)
 
 
