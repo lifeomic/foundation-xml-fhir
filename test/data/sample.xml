@@ -1,0 +1,963 @@
+<rr:ResultsReport xmlns:rr="http://integration.foundationmedicine.com/reporting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://integration.foundationmedicine.com/reporting http://integration.foundationmedicine.com/reporting/ResultsReport.2.0.xsd">
+	<rr:CustomerInformation>
+		<rr:ReferenceID>ABC456</rr:ReferenceID>
+		<rr:CSN>34125162</rr:CSN>
+		<rr:TRF>SMP37669</rr:TRF>
+		<rr:MRN>12345678</rr:MRN>
+		<rr:PhysicianId>1403</rr:PhysicianId>
+	</rr:CustomerInformation>
+	<rr:ResultsPayload>
+		<FinalReport xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" StagingId="130801" clinicalId="131416" xsi:schemaLocation="http://integration.foundationmedicine.com/reporting http://integration.foundationmedicine.com/reporting/ClinicalReport.1.1.xsd">
+			<Application>
+				<ApplicationSettings>
+					<ApplicationSetting>
+						<Name>Statement</Name>
+						<Value>Note: This is a QUALIFIED report.  This specimen failed to meet minimum performance standard following sequencing.  We can confirm the presence of the genomic alterations detailed in this report, but the data obtained were insufficient for comprehensive detection of genomic alterations.</Value>
+					</ApplicationSetting>
+				</ApplicationSettings>
+			</Application>
+			<ReportId>SMP37669</ReportId>
+			<SampleName>TRF165929.01</SampleName>
+			<Version>1</Version>
+			<Sample>
+				<FM_Id>SMP37669</FM_Id>
+				<SampleId>SMP37669.01</SampleId>
+				<BlockId/>
+				<TRFNumber>SMP37669</TRFNumber>
+				<TestType>FoundationOne Heme</TestType>
+				<SpecFormat>Block</SpecFormat>
+				<ReceivedDate>2016-07-21</ReceivedDate>
+				<processSites>
+					<processSite address="150 Second St., 1st Floor, Cambridge, MA 02141" cliaNumber="22D2027531" locationID="1" locationName="Cambridge" processID="1" processName="Sample Preparation Site"/>
+					<processSite address="150 Second St., 1st Floor, Cambridge, MA 02141" cliaNumber="22D2027531" locationID="1" locationName="Cambridge" processID="2" processName="Sample Analysis Site"/>
+				</processSites>
+			</Sample>
+			<PMI>
+				<ReportId>SMP37669</ReportId>
+				<MRN>12345678</MRN>
+				<FullName>Patient, Test</FullName>
+				<FirstName>Test</FirstName>
+				<LastName>Patient</LastName>
+				<SampleId>SMP37669.01</SampleId>
+				<SubmittedDiagnosis>PEDIATRIC Bone osteosarcoma</SubmittedDiagnosis>
+				<Gender>Male</Gender>
+				<DOB>2002-12-12</DOB>
+				<OrderingMD>Smith, John</OrderingMD>
+				<OrderingMDId>9706</OrderingMDId>
+				<Pathologist>Public, John Q</Pathologist>
+				<MedFacilName>ABC Oncology</MedFacilName>
+				<MedFacilID>200313</MedFacilID>
+				<SpecSite>Blood</SpecSite>
+				<CollDate>2016-12-08</CollDate>
+				<ReceivedDate>2016-07-21</ReceivedDate>
+				<CountryOfOrigin>US</CountryOfOrigin>
+				<CopiedPhysician1/>
+			</PMI>
+			<PertinentNegatives/>
+			<Summaries alterationCount="3" clinicalTrialCount="10" resistiveCount="0" sensitizingCount="1"/>
+			<VariantProperties>
+				<VariantProperty geneName="HDAC1" isVUS="true" variantName="R77S"/>
+				<VariantProperty geneName="HDAC7" isVUS="true" variantName="R166H"/>
+				<VariantProperty geneName="MYCN" isVUS="true" variantName="S369N"/>
+				<VariantProperty geneName="NFE2L2" isVUS="true" variantName="N262S"/>
+				<VariantProperty geneName="NUP98" isVUS="true" variantName="E1303G"/>
+				<VariantProperty geneName="PIM1" isVUS="true" variantName="amplification"/>
+				<VariantProperty geneName="RAD21" isVUS="true" variantName="amplification"/>
+				<VariantProperty geneName="TLL2" isVUS="true" variantName="L441F"/>
+				<VariantProperty geneName="Tumor Mutation Burden" isVUS="true" variantName="TMB-Low"/>
+			</VariantProperties>
+			<priorTests/>
+			<Genes>
+				<Gene>
+					<Name>CCND3</Name>
+					<Include>true</Include>
+					<Alterations>
+						<Alteration>
+							<Name>amplification</Name>
+							<AlterationProperties>
+								<AlterationProperty isEquivocal="true" isSubclonal="false" name="amplification"/>
+							</AlterationProperties>
+							<Interpretation>CCND3 encodes cyclin D3, a G1/S-specific cell cycle regulator. Cyclin D3 interacts with and regulates the cyclin-dependent kinases Cdk4 and Cdk6, resulting in the phosphorylation and inactivation of Rb and the progression of the cell cycle (Sridhar et al., 2006; 16584130). CCND1 amplification correlates with Cyclin D1 overexpression and may lead to excessive proliferation and oncogenic growth (Elsheikh et al., 2008; 17653856, Musgrove et al., 2011; 21734724, Fu et al., 2004; 15331580, Takahashi-Yanaga and Sasaguri, 2008; 18023328).One study reports frequent high-level amplification of CCND3 in aggressive osteosarcomas (5/6) (Kanamori et al., 2012; 23199169). Another study reports consistent overexpression of CCND3 in all 13 osteosarcoma patient samples analyzed; 2 of 4 of these samples also showed CCND3 gene amplification (Lu et al., 2008; 18567798). CCND3 overexpression was not correlated with increased cyclin D3 protein levels in this study (Lu et al., 2008; 18567798). Increased expression of Cyclin D3 has been reported in bone and soft tissue sarcomas compared with leiomyomas and normal tissue, suggesting a role for this protein in bone and soft tissue tumors (Bui et al., 2007; 18019405).Amplification or activation of CCND3 may predict sensitivity to CDK4/6 inhibitors (Schmitz et al., 2012; 22885699, Choi et al., 2012; 23079655, Sawai et al., 2012; 23079656), such as LEE011, abemaciclib, and the FDA-approved therapy palbociclib, all of which are under investigation in clinical trials (Infante et al., 2014; ASCO Abstract 2528, Shapiro et al., 2013; ASCO Abstract 2500)(Flaherty et al., 2012; 22090362, Dickson et al., 2013; 23569312).</Interpretation>
+							<Include>true</Include>
+							<ClinicalTrialNote>CCND3 amplification may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</ClinicalTrialNote>
+							<Therapies>
+								<Therapy>
+									<Name>Palbociclib</Name>
+									<GenericName>Palbociclib</GenericName>
+									<FDAApproved>false</FDAApproved>
+									<Rationale>Palbociclib inhibits the cyclin-dependent kinases 4 and 6 (CDK4/6) and is FDA approved to treat hormone receptor (HR)-positive, HER2-negative advanced or metastatic breast cancer in combination with letrozole as first-line therapy for postmenopausal women or in combination with fulvestrant following progression on endocrine therapy.Clinical studies in liposarcoma and mantle cell lymphoma as well as responses in patients with breast cancer or melanoma indicate that activation of cyclin D-CDK4/6 may predict sensitivity to therapies such as palbociclib (Infante et al., 2014; ASCO Abstract 2528)(Dickson et al., 2016; 27124835, Dickson et al., 2013; 23569312, Leonard et al., 2012; 22383795).Palbociclib has not been extensively studied in the context of osteosarcoma (PubMed, May 2016). Palbociclib has been studied primarily for the treatment of ER+ breast cancer (Turner et al., 2015; 26030518, Finn et al., 2014; 25524798, DeMichele et al., 2014; 25501126). Single-agent palbociclib has shown limited activity against solid tumors, with a Phase 1 study reporting no partial responses (PR) and a 16% (6/37) stable disease (SD) rate (&gt;9 months) (Flaherty et al., 2012; 22090362). Phase 2 trials of palbociclib in patients with KRAS-mutant colorectal cancer or p16INK4a-deficient non-small cell lung cancer (NSCLC) also reported no responses, although SD was seen in 33% (5/15) and 50% (8/16) of patients, respectively (O'Hara et al., 2015; ASCO GI Abstract 626, Gopalan et al., 2014; ASCO Abstract 8077). A Phase 2 study of palbociclib for the treatment of advanced Rb-positive hepatocellular carcinoma reported disease control (responses or stable disease) for 9/21 (43%) patients, including one patient with a PR; the trial has met its primary endpoint (Littman et al., 2015; ASCO GI Abstract 277). For various tumor types, preclinical studies suggest that palbociclib may be useful in combination with other therapies targeting oncogenic drivers such as MEK, BRAF, PI3K, or IGF1R (Kwong et al., 2012; 22983396, Huillard et al., 2012; 22586120, Vora et al., 2014; 25002028, Miller et al., 2013; 24065146, Heilmann et al., 2014; 24986516). Multiple preclinical studies demonstrate that loss or inactivation of Rb predicts resistance to palbociclib (Fry et al., 2004; 15542782, Dean et al., 2010; 20473330, Dean et al., 2012; 22767154, Garnett et al., 2012; 22460902).</Rationale>
+									<ApprovedUses/>
+									<Effect>Sensitizing</Effect>
+									<Include>false</Include>
+									<IncludeInSummary>true</IncludeInSummary>
+									<ReferenceLinks>
+										<ReferenceLink referenceId="27124835">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="23569312">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22383795">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="26030518">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="25524798">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="25501126">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22090362">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22983396">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22586120">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="25002028">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="24065146">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="24986516">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="15542782">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="20473330">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22767154">
+											<Include>false</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22460902">
+											<Include>false</Include>
+										</ReferenceLink>
+									</ReferenceLinks>
+								</Therapy>
+							</Therapies>
+							<ReferenceLinks>
+								<ReferenceLink referenceId="16584130">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="17653856">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="21734724">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="15331580">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="18023328">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23199169">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="18567798">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="18567798">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="18019405">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="22885699">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23079655">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23079656">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="22090362">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23569312">
+									<Include>true</Include>
+								</ReferenceLink>
+							</ReferenceLinks>
+							<ClinicalTrialLinks>
+								<ClinicalTrialLink nctId="NCT02693535"/>
+								<ClinicalTrialLink nctId="NCT01037790"/>
+								<ClinicalTrialLink nctId="NCT02644460"/>
+								<ClinicalTrialLink nctId="NCT01522989"/>
+								<ClinicalTrialLink nctId="NCT02187783"/>
+							</ClinicalTrialLinks>
+						</Alteration>
+					</Alterations>
+					<ReferenceLinks/>
+				</Gene>
+				<Gene>
+					<Name>CDK4</Name>
+					<Include>true</Include>
+					<Alterations>
+						<Alteration>
+							<Name>amplification</Name>
+							<AlterationProperties>
+								<AlterationProperty isEquivocal="false" isSubclonal="false" name="amplification"/>
+							</AlterationProperties>
+							<Interpretation>CDK4 encodes cyclin-dependent kinase 4, which regulates the cell cycle, senescence, and apoptosis (reviewed in Choi et al., 2014; 23644662). CDK4 and its functional homolog CDK6 are activated by D-type cyclins and promote cell cycle progression by inactivating the  retinoblastoma tumor suppressor protein (Rb) (Weinberg et al., 1995; 7736585, Musgrove et al., 2011; 21734724). CDK4 amplification correlates with high CDK4 gene and protein expression (Wikman et al., 2005; 15543620).Amplification of CDK4 has been variously reported in 9-82% of osteosarcoma samples (Wei et al., 1999; 9935200, Smida et al., 2010; 20610556, Dujardin et al., 2011; 21336260, Mejia-Guerrero et al., 2010; 20196171, Yoshida et al., 2012; 22301501). CDK4 amplification has been reported to be relatively rare in conventional high-grade osteosarcoma but frequent in low-grade osteosarcomas, including parosteal osteosarcomas and low-grade central osteosarcomas, suggesting that CDK4 expression may help facilitate subclassification in osteosarcoma (Dujardin et al., 2011; 21336260, Mejia-Guerrero et al., 2010; 20196171, Yoshida et al., 2012; 22301501). Deregulation of the G1/S checkpoint genes, including CDK4, and expression of the cyclin D1/CDK4 complex have been associated with poor prognosis in osteosarcoma patients (López-Guerrero et al., 2004; 15167009, Benassi et al., 1999; 10502725).Amplification of CDK4 may predict sensitivity to CDK4/6 inhibitors, such as LEE011, abemaciclib, and the FDA-approved therapy palbociclib, all of which are under investigation in clinical trials (Infante et al., 2014; ASCO Abstract 2528, Shapiro et al., 2013; ASCO Abstract 2500)(Flaherty et al., 2012; 22090362, Dickson et al., 2013; 23569312, Finn et al., 2015; 25524798).</Interpretation>
+							<Include>true</Include>
+							<ClinicalTrialNote>Amplification of CDK4 may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</ClinicalTrialNote>
+							<Therapies>
+								<Therapy>
+									<Name>Palbociclib</Name>
+									<GenericName>Palbociclib</GenericName>
+									<FDAApproved>false</FDAApproved>
+									<Rationale>Palbociclib inhibits the cyclin-dependent kinases 4 and 6 (CDK4/6) and is FDA approved to treat hormone receptor (HR)-positive, HER2-negative advanced or metastatic breast cancer in combination with letrozole as first-line therapy for postmenopausal women or in combination with fulvestrant following progression on endocrine therapy.Clinical studies in liposarcoma and mantle cell lymphoma as well as responses in patients with breast cancer or melanoma indicate that activation of cyclin D-CDK4/6 may predict sensitivity to therapies such as palbociclib (Infante et al., 2014; ASCO Abstract 2528)(Dickson et al., 2016; 27124835, Dickson et al., 2013; 23569312, Leonard et al., 2012; 22383795).Palbociclib has not been extensively studied in the context of osteosarcoma (PubMed, May 2016). Palbociclib has been studied primarily for the treatment of ER+ breast cancer (Turner et al., 2015; 26030518, Finn et al., 2014; 25524798, DeMichele et al., 2014; 25501126). Single-agent palbociclib has shown limited activity against solid tumors, with a Phase 1 study reporting no partial responses (PR) and a 16% (6/37) stable disease (SD) rate (&gt;9 months) (Flaherty et al., 2012; 22090362). Phase 2 trials of palbociclib in patients with KRAS-mutant colorectal cancer or p16INK4a-deficient non-small cell lung cancer (NSCLC) also reported no responses, although SD was seen in 33% (5/15) and 50% (8/16) of patients, respectively (O'Hara et al., 2015; ASCO GI Abstract 626, Gopalan et al., 2014; ASCO Abstract 8077). A Phase 2 study of palbociclib for the treatment of advanced Rb-positive hepatocellular carcinoma reported disease control (responses or stable disease) for 9/21 (43%) patients, including one patient with a PR; the trial has met its primary endpoint (Littman et al., 2015; ASCO GI Abstract 277). For various tumor types, preclinical studies suggest that palbociclib may be useful in combination with other therapies targeting oncogenic drivers such as MEK, BRAF, PI3K, or IGF1R (Kwong et al., 2012; 22983396, Huillard et al., 2012; 22586120, Vora et al., 2014; 25002028, Miller et al., 2013; 24065146, Heilmann et al., 2014; 24986516). Multiple preclinical studies demonstrate that loss or inactivation of Rb predicts resistance to palbociclib (Fry et al., 2004; 15542782, Dean et al., 2010; 20473330, Dean et al., 2012; 22767154, Garnett et al., 2012; 22460902).</Rationale>
+									<ApprovedUses/>
+									<Effect>Sensitizing</Effect>
+									<Include>true</Include>
+									<IncludeInSummary>true</IncludeInSummary>
+									<ReferenceLinks>
+										<ReferenceLink referenceId="27124835">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="23569312">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22383795">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="26030518">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="25524798">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="25501126">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22090362">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22983396">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22586120">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="25002028">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="24065146">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="24986516">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="15542782">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="20473330">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22767154">
+											<Include>true</Include>
+										</ReferenceLink>
+										<ReferenceLink referenceId="22460902">
+											<Include>true</Include>
+										</ReferenceLink>
+									</ReferenceLinks>
+								</Therapy>
+							</Therapies>
+							<ReferenceLinks>
+								<ReferenceLink referenceId="23644662">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="7736585">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="21734724">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="15543620">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="9935200">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="20610556">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="21336260">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="20196171">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="22301501">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="21336260">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="20196171">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="22301501">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="15167009">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="10502725">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="22090362">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23569312">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="25524798">
+									<Include>true</Include>
+								</ReferenceLink>
+							</ReferenceLinks>
+							<ClinicalTrialLinks>
+								<ClinicalTrialLink nctId="NCT01522989"/>
+								<ClinicalTrialLink nctId="NCT02187783"/>
+								<ClinicalTrialLink nctId="NCT02389842"/>
+								<ClinicalTrialLink nctId="NCT02644460"/>
+								<ClinicalTrialLink nctId="NCT02693535"/>
+							</ClinicalTrialLinks>
+						</Alteration>
+					</Alterations>
+					<ReferenceLinks/>
+				</Gene>
+				<Gene>
+					<Name>MYC</Name>
+					<Include>true</Include>
+					<Alterations>
+						<Alteration>
+							<Name>amplification</Name>
+							<AlterationProperties>
+								<AlterationProperty isEquivocal="false" isSubclonal="false" name="amplification"/>
+							</AlterationProperties>
+							<Interpretation>MYC (c-MYC) encodes a transcription factor that regulates several genes related to cell cycle regulation and cell growth. It is an oncogene and may be activated in as many as 20% of cancers (Dang et al., 2006; 16904903). MYC deregulation (amplification, overexpression, translocation) has been identified in a number of different cancer types (Nesbit et al., 1999; 10378696). MYC amplification has been significantly linked with increased mRNA and protein levels and results in the dysregulation of a large number of target genes (Blancato et al., 2004; 15083194, Dang et al., 2006; 16904903, Fromont et al., 2013; 23574779). MYC amplification has been reported in 16% of osteosarcoma cases and has been significantly associated with poor prognosis (Smida et al., 2010; 20610556). In osteosarcoma, MYC amplification has been observed frequently with alterations of RB1 (Smida et al., 2010; 20610556). c-Myc expression has been observed in up to 86% (48/56) of osteosarcomas, and has also been correlated with a poor prognosis (Wu et al., 2012; 21890444). There are no available therapies that directly target MYC. However, preclinical studies have suggested several synthetic lethal strategies to indirectly target MYC; these studies have shown that cells that overexpress MYC protein may be sensitive to CDK1, CDK2, or Aurora kinase B inhibitors, including those that are under investigation in clinical trials (Horiuchi et al., 2012; 22430491, Hook et al., 2012; 22222631, Goga et al., 2007; 17589519, Yang et al., 2010; 20643922, Molenaar et al., 2009; 19525400). A patient with MYC-amplified invasive ductal breast carcinoma experienced a partial response to an Aurora kinase inhibitor (Ganesan et al., 2014; 25253784). Furthermore, in numerous preclinical studies, inhibition of BET bromodomain-containing proteins, in particular BRD4, has been reported to downregulate MYC expression and MYC-dependent gene expression programs in a variety of hematopoietic and solid tumor cancer models and primary cells (Delmore et al., 2011; 21889194, Bandopadhayay et al., 2013; 24297863, Loven et al., 2013; 23582323). Phase 1 trials of the BET inhibitor OTX015 in patients with hematological malignancies reported clinical activity in patients with acute myeloid leukemia (AML) or lymphoma (Herait et al., 2015; TAT Abstract O7.3, Dombret et al., 2014; ASH Abstract 117, Thieblemont et al., 2014; ASH Abstract 4417). On the basis of preclinical (Sun et al., 2016; AACR Abstract 4634)(Dong et al., 2013; 23866964, Pei et al., 2016; 26977882) and limited clinical (Younes et al., 2015; ASH Abstract 257)(Younes et al., 2016; 27049457) data, MYC alterations that lead to increased expression of MYC may predict sensitivity to combinatorial inhibition of HDAC and PI3K in diffuse large B-cell lymphoma (DLBCL); it is not clear whether this approach would be beneficial in other cancer types. MYC amplification has also been suggested to predict response to chemotherapy in patients with breast cancer in some studies (Pereira et al., 2013; 23555992, Yasojima et al., 2011; 21741827). Preclinical evidence suggests that colon cancer cells with MYC amplification may be more sensitive to 5-fluorouracil and paclitaxel (Arango et al., 2001; 11406570, Bottone et al., 2003; 14516787).</Interpretation>
+							<Include>true</Include>
+							<ClinicalTrialNote>Several strategies are under investigation to address amplification or overexpression of MYC in human cancer. These strategies include inhibition of CDKs, especially CDK1 and CDK2; Aurora kinases, particularly Aurora kinase B; as well as BET inhibitors, reported to down-regulate MYC expression and MYC-dependent transcriptional programs in a variety of human cancer models.Due to the limited number of clinical trials recruiting pediatric patients, the list below may include trials that are only recruiting adult patients at this time.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "MYC", "BET", "BRD4", "CDK1", "CDK2", "Aurora kinase B", "AZD1152", "AMG 900", "GSK1070916A", "BMS 777607", "chiauranib", "dinaciclib", "SCH727965", "BAY 1000394", "CS-2164", "CPI-0610", "I-BET762", "GSK525762", "GSK1324726A", "TEN-010", "RVX-208", "OTX015", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</ClinicalTrialNote>
+							<Therapies/>
+							<ReferenceLinks>
+								<ReferenceLink referenceId="16904903">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="10378696">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="15083194">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="16904903">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23574779">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="20610556">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="20610556">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="21890444">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="22430491">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="22222631">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="17589519">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="20643922">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="19525400">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="25253784">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="21889194">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="24297863">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23582323">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23866964">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="26977882">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="27049457">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="23555992">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="21741827">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="11406570">
+									<Include>true</Include>
+								</ReferenceLink>
+								<ReferenceLink referenceId="14516787">
+									<Include>true</Include>
+								</ReferenceLink>
+							</ReferenceLinks>
+							<ClinicalTrialLinks>
+								<ClinicalTrialLink nctId="NCT02431260"/>
+								<ClinicalTrialLink nctId="NCT01434316"/>
+								<ClinicalTrialLink nctId="NCT01987362"/>
+								<ClinicalTrialLink nctId="NCT02419417"/>
+							</ClinicalTrialLinks>
+						</Alteration>
+					</Alterations>
+					<ReferenceLinks/>
+				</Gene>
+			</Genes>
+			<Trials>
+				<Trial>
+					<Gene>CCND3</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Targeted Agent and Profiling Utilization Registry (TAPUR) Study</Title>
+					<StudyPhase>Phase 2</StudyPhase>
+					<Target>CDK4, CDK6, Others</Target>
+					<Locations>Michigan, North Carolina</Locations>
+					<NCTID>NCT02693535</NCTID>
+					<Note>CCND3 amplification may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CCND3</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Phase II Trial of the Cyclin-Dependent Kinase Inhibitor PD 0332991 in Patients With Cancer</Title>
+					<StudyPhase>Phase 2</StudyPhase>
+					<Target>CDK4, CDK6</Target>
+					<Locations>Pennsylvania</Locations>
+					<NCTID>NCT01037790</NCTID>
+					<Note>CCND3 amplification may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CCND3</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Abemaciclib in Children With Newly Diagnosed Diffuse Intrinsic Pontine Glioma, and in Children With Recurrent and Refractory Solid Tumors Including Malignant Brain Tumors</Title>
+					<StudyPhase>Phase 1</StudyPhase>
+					<Target>CDK4, CDK6</Target>
+					<Locations>Georgia</Locations>
+					<NCTID>NCT02644460</NCTID>
+					<Note>CCND3 amplification may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CCND3</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>A Phase I Study of the CDK4/6 Inhibitor PD-0332991, 5-Fluorouracil, and Oxaliplatin in Patients With Advanced Solid Tumor Malignancies</Title>
+					<StudyPhase>Phase 1</StudyPhase>
+					<Target>CDK4, CDK6</Target>
+					<Locations>District of Columbia</Locations>
+					<NCTID>NCT01522989</NCTID>
+					<Note>CCND3 amplification may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CCND3</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Modular Phase II Study to Link Targeted Therapy to Patients With Pathway Activated Tumors: Module 8 - LEE011 for Patients With CDK4/6 Pathway Activated Tumors</Title>
+					<StudyPhase>Phase 2</StudyPhase>
+					<Target>CDK4, CDK6</Target>
+					<Locations>Texas</Locations>
+					<NCTID>NCT02187783</NCTID>
+					<Note>CCND3 amplification may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CDK4</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>A Phase I Study of the CDK4/6 Inhibitor PD-0332991, 5-Fluorouracil, and Oxaliplatin in Patients With Advanced Solid Tumor Malignancies</Title>
+					<StudyPhase>Phase 1</StudyPhase>
+					<Target>CDK4, CDK6</Target>
+					<Locations>District of Columbia</Locations>
+					<NCTID>NCT01522989</NCTID>
+					<Note>Amplification of CDK4 may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CDK4</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Modular Phase II Study to Link Targeted Therapy to Patients With Pathway Activated Tumors: Module 8 - LEE011 for Patients With CDK4/6 Pathway Activated Tumors</Title>
+					<StudyPhase>Phase 2</StudyPhase>
+					<Target>CDK4, CDK6</Target>
+					<Locations>Texas</Locations>
+					<NCTID>NCT02187783</NCTID>
+					<Note>Amplification of CDK4 may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CDK4</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>PIPA: A Phase Ib Study to Assess the Safety, Tolerability and Efficacy of the PI3K Inhibitors, Taselisib (GDC-0032) or Pictilisib (GDC-0941), in Combination With PAlbociclib, With the Subsequent Addition of Fulvestrant in PIK3CA-mutant Breast Cancers</Title>
+					<StudyPhase>Phase 1</StudyPhase>
+					<Target>CDK4, CDK6, PI3K</Target>
+					<Locations>London (United Kingdom)</Locations>
+					<NCTID>NCT02389842</NCTID>
+					<Note>Amplification of CDK4 may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CDK4</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Abemaciclib in Children With Newly Diagnosed Diffuse Intrinsic Pontine Glioma, and in Children With Recurrent and Refractory Solid Tumors Including Malignant Brain Tumors</Title>
+					<StudyPhase>Phase 1</StudyPhase>
+					<Target>CDK4, CDK6</Target>
+					<Locations>Georgia</Locations>
+					<NCTID>NCT02644460</NCTID>
+					<Note>Amplification of CDK4 may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>CDK4</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Targeted Agent and Profiling Utilization Registry (TAPUR) Study</Title>
+					<StudyPhase>Phase 2</StudyPhase>
+					<Target>CDK4, CDK6, Others</Target>
+					<Locations>Michigan, North Carolina</Locations>
+					<NCTID>NCT02693535</NCTID>
+					<Note>Amplification of CDK4 may predict sensitivity to CDK4/6 inhibitors.Due to the limited number of clinical trials available for pediatric patients, clinical trials recruiting adults only are listed below for informational purposes.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "CDK4", "CDK6", "PD 0332991", "LEE011", "LY2835219", "palbociclib", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>MYC</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>A Phase 1/2, Open-Label, Dose-Escalation, Safety and Tolerability Study of INCB054329 in Subjects With Advanced Malignancies</Title>
+					<StudyPhase>Phase 1/Phase 2</StudyPhase>
+					<Target>BRD2, BRD3, BRD4</Target>
+					<Locations>California, Colorado, Illinois, Indiana, Michigan, Missouri, Tennessee, Texas, Washington</Locations>
+					<NCTID>NCT02431260</NCTID>
+					<Note>Several strategies are under investigation to address amplification or overexpression of MYC in human cancer. These strategies include inhibition of CDKs, especially CDK1 and CDK2; Aurora kinases, particularly Aurora kinase B; as well as BET inhibitors, reported to down-regulate MYC expression and MYC-dependent transcriptional programs in a variety of human cancer models.Due to the limited number of clinical trials recruiting pediatric patients, the list below may include trials that are only recruiting adult patients at this time.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "MYC", "BET", "BRD4", "CDK1", "CDK2", "Aurora kinase B", "AZD1152", "AMG 900", "GSK1070916A", "BMS 777607", "chiauranib", "dinaciclib", "SCH727965", "BAY 1000394", "CS-2164", "CPI-0610", "I-BET762", "GSK525762", "GSK1324726A", "TEN-010", "RVX-208", "OTX015", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>MYC</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>Phase 1 Trial of ABT-888 and SCH727965 in Patients With Advanced Solid Tumors</Title>
+					<StudyPhase>Phase 1</StudyPhase>
+					<Target>CDK1, CDK2, CDK5, CDK9, PARP</Target>
+					<Locations>Massachusetts</Locations>
+					<NCTID>NCT01434316</NCTID>
+					<Note>Several strategies are under investigation to address amplification or overexpression of MYC in human cancer. These strategies include inhibition of CDKs, especially CDK1 and CDK2; Aurora kinases, particularly Aurora kinase B; as well as BET inhibitors, reported to down-regulate MYC expression and MYC-dependent transcriptional programs in a variety of human cancer models.Due to the limited number of clinical trials recruiting pediatric patients, the list below may include trials that are only recruiting adult patients at this time.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "MYC", "BET", "BRD4", "CDK1", "CDK2", "Aurora kinase B", "AZD1152", "AMG 900", "GSK1070916A", "BMS 777607", "chiauranib", "dinaciclib", "SCH727965", "BAY 1000394", "CS-2164", "CPI-0610", "I-BET762", "GSK525762", "GSK1324726A", "TEN-010", "RVX-208", "OTX015", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>MYC</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>A Two Part, Phase 1, Multicenter, Open-label Study of TEN-010 Given Subcutaneously. Part A: A Dose-Escalation Study in Patients With Advanced Solid Tumors. Part B: An Expansion Cohort in Patients With Selected Malignancies.</Title>
+					<StudyPhase>Phase 1</StudyPhase>
+					<Target>BRD2, BRD3, BRD4, BRDT</Target>
+					<Locations>Connecticut, Massachusetts, Michigan, Ohio</Locations>
+					<NCTID>NCT01987362</NCTID>
+					<Note>Several strategies are under investigation to address amplification or overexpression of MYC in human cancer. These strategies include inhibition of CDKs, especially CDK1 and CDK2; Aurora kinases, particularly Aurora kinase B; as well as BET inhibitors, reported to down-regulate MYC expression and MYC-dependent transcriptional programs in a variety of human cancer models.Due to the limited number of clinical trials recruiting pediatric patients, the list below may include trials that are only recruiting adult patients at this time.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "MYC", "BET", "BRD4", "CDK1", "CDK2", "Aurora kinase B", "AZD1152", "AMG 900", "GSK1070916A", "BMS 777607", "chiauranib", "dinaciclib", "SCH727965", "BAY 1000394", "CS-2164", "CPI-0610", "I-BET762", "GSK525762", "GSK1324726A", "TEN-010", "RVX-208", "OTX015", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+				<Trial>
+					<Gene>MYC</Gene>
+					<Alteration>amplification</Alteration>
+					<Title>A Phase I/IIa Trial With BMS-986158, a Small Molecule Inhibitor of the Bromodomain and Extra-Terminal (BET) Proteins, in Subjects With Selected Advanced Solid Tumors</Title>
+					<StudyPhase>Phase 1/Phase 2</StudyPhase>
+					<Target>BRD2, BRD3, BRD4, BRDT</Target>
+					<Locations>California, Ontario (Canada), Victoria (Australia)</Locations>
+					<NCTID>NCT02419417</NCTID>
+					<Note>Several strategies are under investigation to address amplification or overexpression of MYC in human cancer. These strategies include inhibition of CDKs, especially CDK1 and CDK2; Aurora kinases, particularly Aurora kinase B; as well as BET inhibitors, reported to down-regulate MYC expression and MYC-dependent transcriptional programs in a variety of human cancer models.Due to the limited number of clinical trials recruiting pediatric patients, the list below may include trials that are only recruiting adult patients at this time.Examples of clinical trials that may be appropriate for this patient are listed below. These trials were identified through a search of the trial website clinicaltrials.gov using keyword terms such as "MYC", "BET", "BRD4", "CDK1", "CDK2", "Aurora kinase B", "AZD1152", "AMG 900", "GSK1070916A", "BMS 777607", "chiauranib", "dinaciclib", "SCH727965", "BAY 1000394", "CS-2164", "CPI-0610", "I-BET762", "GSK525762", "GSK1324726A", "TEN-010", "RVX-208", "OTX015", "child", "osteosarcoma", "solid tumor", and/or "advanced cancer".</Note>
+					<Include>true</Include>
+				</Trial>
+			</Trials>
+			<References>
+				<Reference number="43">
+					<ReferenceId>11406570</ReferenceId>
+					<FullCitation>Arango D, Corner GA, Wadler S, et al. (2001) c-myc/p53 interaction determines sensitivity of human colon carcinoma cells to 5-fluorouracil in vitro and in vivo. Cancer Res 61(12):4910-5</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="36">
+					<ReferenceId>24297863</ReferenceId>
+					<FullCitation>Bandopadhayay P, Bergthold G, Nguyen B, et al. (2013) BET-bromodomain inhibition of MYC-amplified Medulloblastoma. Clin Cancer Res ePub Dec 2013</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="22">
+					<ReferenceId>10502725</ReferenceId>
+					<FullCitation>Benassi MS, Molendini L, Gamberi G, et al. (1999) Alteration of pRb/p16/cdk4 regulation in human osteosarcoma. Int J Cancer 84(5):489-93</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="26">
+					<ReferenceId>15083194</ReferenceId>
+					<FullCitation>Blancato J, Singh B, Liu A, et al. (2004) Correlation of amplification and overexpression of the c-myc oncogene in high-grade breast cancer: FISH, in situ hybridisation and immunohistochemical analyses. Br J Cancer 90(8):1612-9</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="44">
+					<ReferenceId>14516787</ReferenceId>
+					<FullCitation>Bottone MG, Soldani C, Tognon G, et al. (2003) Multiple effects of paclitaxel are modulated by a high c-myc amplification level. Exp Cell Res 290(1):49-59</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="7">
+					<ReferenceId>18019405</ReferenceId>
+					<FullCitation>Bui MM, Bagui TK, Boulware DC, et al. Altered expression of cell cycle regulatory proteins in benign and malignant bone and soft tissue neoplasms. In Vivo 21(5):729-37</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="13">
+					<ReferenceId>23644662</ReferenceId>
+					<FullCitation>Choi YJ, Anders L (2014) Signaling through cyclin D-dependent kinases. Oncogene 33(15):1890-903</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="9">
+					<ReferenceId>23079655</ReferenceId>
+					<FullCitation>Choi YJ, Li X, Hydbring P, et al. (2012) The requirement for cyclin D function in tumor maintenance. Cancer Cell 22(4):438-51</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="24">
+					<ReferenceId>16904903</ReferenceId>
+					<FullCitation>Dang CV, O'Donnell KA, Zeller KI, et al. (2006) The c-Myc target gene network. Semin Cancer Biol 16(4):253-64</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="56">
+					<ReferenceId>22767154</ReferenceId>
+					<FullCitation>Dean JL, McClendon AK, Hickey TE, et al. (2012) Therapeutic response to CDK4/6 inhibition in breast cancer defined by ex vivo analyses of human tumors. Cell Cycle 11(14):2756-61</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="55">
+					<ReferenceId>20473330</ReferenceId>
+					<FullCitation>Dean JL, Thangavel C, McClendon AK, et al. (2010) Therapeutic CDK4/6 inhibition in breast cancer: key mechanisms of response and failure. Oncogene 29(28):4018-32</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="35">
+					<ReferenceId>21889194</ReferenceId>
+					<FullCitation>Delmore JE, Issa GC, Lemieux ME, et al. (2011) BET bromodomain inhibition as a therapeutic strategy to target c-Myc. Cell 146(6):904-17</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="48">
+					<ReferenceId>25501126</ReferenceId>
+					<FullCitation>DeMichele A, Clark A, Tan KS, et al. (2014) CDK 4/6 Inhibitor Palbociclib (PD0332991) in Rb+ Advanced Breast Cancer: Phase II Activity, Safety and Predictive Biomarker Assessment. Clin Cancer Res ePub Dec 2014</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="45">
+					<ReferenceId>27124835</ReferenceId>
+					<FullCitation>Dickson MA, Schwartz GK, Keohan ML, et al. (2016) Progression-Free Survival Among Patients With Well-Differentiated or Dedifferentiated Liposarcoma Treated With CDK4 Inhibitor Palbociclib: A Phase 2 Clinical Trial. JAMA Oncol ePub Apr 2016</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="12">
+					<ReferenceId>23569312</ReferenceId>
+					<FullCitation>Dickson MA, Tap WD, Keohan ML, et al. (2013) Phase II trial of the CDK4 inhibitor PD0332991 in patients with advanced CDK4-amplified well-differentiated or dedifferentiated liposarcoma. J Clin Oncol 31(16):2024-8</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="38">
+					<ReferenceId>23866964</ReferenceId>
+					<FullCitation>Dong LH, Cheng S, Zheng Z, et al. (2013) Histone deacetylase inhibitor potentiated the ability of MTOR inhibitor to induce autophagic cell death in Burkitt leukemia/lymphoma. J Hematol Oncol 6:53</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="18">
+					<ReferenceId>21336260</ReferenceId>
+					<FullCitation>Dujardin F, Binh MB, Bouvier C, et al. (2011) MDM2 and CDK4 immunohistochemistry is a valuable tool in the differential diagnosis of low-grade osteosarcomas and other primary fibro-osseous lesions of the bone. Mod Pathol 24(5):624-37</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="1">
+					<ReferenceId>17653856</ReferenceId>
+					<FullCitation>Elsheikh S, Green AR, Aleskandarany MA, et al. (2008) CCND1 amplification and cyclin D1 expression in breast cancer and their relation with proteomic subgroups and patient outcome. Breast Cancer Res Treat 109(2):325-35</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="23">
+					<ReferenceId>25524798</ReferenceId>
+					<FullCitation>Finn RS, Crown JP, Lang I, et al. (2014) The cyclin-dependent kinase 4/6 inhibitor palbociclib in combination with letrozole versus letrozole alone as first-line treatment of oestrogen receptor-positive, HER2-negative, advanced breast cancer (PALOMA-1/TRIO-18): a randomised phase 2 study. Lancet Oncol ePub Dec 2014</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="11">
+					<ReferenceId>22090362</ReferenceId>
+					<FullCitation>Flaherty KT, Lorusso PM, Demichele A, et al. (2012) Phase I, dose-escalation trial of the oral cyclin-dependent kinase 4/6 inhibitor PD 0332991, administered using a 21-day schedule in patients with advanced cancer. Clin Cancer Res 18(2):568-76</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="27">
+					<ReferenceId>23574779</ReferenceId>
+					<FullCitation>Fromont G, Godet J, Peyret A, et al. (2013) 8q24 amplification is associated with Myc expression and prostate cancer progression and is an independent predictor of recurrence after radical prostatectomy. Hum Pathol 44(8):1617-23</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="54">
+					<ReferenceId>15542782</ReferenceId>
+					<FullCitation>Fry DW, Harvey PJ, Keller PR, et al. (2004) Specific inhibition of cyclin-dependent kinase 4/6 by PD 0332991 and associated antitumor activity in human tumor xenografts. Mol Cancer Ther 3(11):1427-38</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="3">
+					<ReferenceId>15331580</ReferenceId>
+					<FullCitation>Fu M, Wang C, Li Z, et al. (2004) Minireview: Cyclin D1: normal and abnormal functions. Endocrinology 145(12):5439-47</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="34">
+					<ReferenceId>25253784</ReferenceId>
+					<FullCitation>Ganesan P, Moulder S, Lee JJ, et al. (2014) Triple Negative Breast Cancer Patients Treated at MD Anderson Cancer Center in Phase I Trials: Improved Outcomes with Combination Chemotherapy and Targeted Agents. Mol Cancer Ther ePub Sep 2014</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="57">
+					<ReferenceId>22460902</ReferenceId>
+					<FullCitation>Garnett MJ, Edelman EJ, Heidorn SJ, et al. (2012) Systematic identification of genomic markers of drug sensitivity in cancer cells. Nature 483(7391):570-5</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="31">
+					<ReferenceId>17589519</ReferenceId>
+					<FullCitation>Goga A, Yang D, Tward AD, et al. (2007) Inhibition of CDK1 as a potential therapy for tumors over-expressing MYC. Nat Med 13(7):820-7</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="53">
+					<ReferenceId>24986516</ReferenceId>
+					<FullCitation>Heilmann AM, Perera RM, Ecker V, et al. (2014) CDK4/6 and IGF1 Receptor Inhibitors Synergize to Suppress the Growth of p16INK4A-Deficient Pancreatic Cancers. Cancer Res 74(14):3947-58</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="30">
+					<ReferenceId>22222631</ReferenceId>
+					<FullCitation>Hook KE, Garza SJ, Lira ME, et al. (2012) An integrated genomic approach to identify predictive biomarkers of response to the aurora kinase inhibitor PF-03814735. Mol Cancer Ther 11(3):710-9</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="29">
+					<ReferenceId>22430491</ReferenceId>
+					<FullCitation>Horiuchi D, Kusdra L, Huskey NE, et al. (2012) MYC pathway activation in triple-negative breast cancer is synthetic lethal with CDK inhibition. J Exp Med 209(4):679-96</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="50">
+					<ReferenceId>22586120</ReferenceId>
+					<FullCitation>Huillard E, Hashizume R, Phillips JJ, et al. (2012) Cooperative interactions of BRAFV600E kinase and CDKN2A locus deficiency in pediatric malignant astrocytoma as a basis for rational therapy. Proc Natl Acad Sci USA 109(22):8710-5</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="5">
+					<ReferenceId>23199169</ReferenceId>
+					<FullCitation>Kanamori M, Sano A, Yasuda T, et al. (2012) Array-based comparative genomic hybridization for genomic-wide screening of DNA copy number alterations in aggressive bone tumors. J Exp Clin Cancer Res 31:100</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="49">
+					<ReferenceId>22983396</ReferenceId>
+					<FullCitation>Kwong LN, Costello JC, Liu H, et al. (2012) Oncogenic NRAS signaling differentially regulates survival and proliferation in melanoma. Nat Med 18(10):1503-10</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="46">
+					<ReferenceId>22383795</ReferenceId>
+					<FullCitation>Leonard JP, LaCasce AS, Smith MR, et al. (2012) Selective CDK4/6 inhibition with tumor responses by PD0332991 in patients with mantle cell lymphoma. Blood 119(20):4597-607</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="21">
+					<ReferenceId>15167009</ReferenceId>
+					<FullCitation>López-Guerrero JA, López-Ginés C, Pellín A, et al. (2004) Deregulation of the G1 to S-phase cell cycle checkpoint is involved in the pathogenesis of human osteosarcoma. Diagn Mol Pathol 13(2):81-91</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="37">
+					<ReferenceId>23582323</ReferenceId>
+					<FullCitation>Lovén J, Hoke HA, Lin CY, et al. (2013) Selective inhibition of tumor oncogenes by disruption of super-enhancers. Cell 153(2):320-34</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="6">
+					<ReferenceId>18567798</ReferenceId>
+					<FullCitation>Lu XY, Lu Y, Zhao YJ, et al. (2008) Cell cycle regulator gene CDC5L, a potential target for 6p12-p21 amplicon in osteosarcoma. Mol Cancer Res 6(6):937-46</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="19">
+					<ReferenceId>20196171</ReferenceId>
+					<FullCitation>Mejia-Guerrero S, Quejada M, Gokgoz N, et al. (2010) Characterization of the 12q15 MDM2 and 12q13-14 CDK4 amplicons and clinical correlations in osteosarcoma. Genes Chromosomes Cancer 49(6):518-25</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="52">
+					<ReferenceId>24065146</ReferenceId>
+					<FullCitation>Miller ML, Molinelli EJ, Nair JS, et al. (2013) Drug synergy screen and network modeling in dedifferentiated liposarcoma identifies CDK4 and IGF1R as synergistic drug targets. Sci Signal 6(294):ra85</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="33">
+					<ReferenceId>19525400</ReferenceId>
+					<FullCitation>Molenaar JJ, Ebus ME, Geerts D, et al. (2009) Inactivation of CDK2 is synthetically lethal to MYCN over-expressing cancer cells. Proc Natl Acad Sci USA 106(31):12968-73</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="2">
+					<ReferenceId>21734724</ReferenceId>
+					<FullCitation>Musgrove EA, Caldon CE, Barraclough J, et al. (2011) Cyclin D as a therapeutic target in cancer. Nat Rev Cancer 11(8):558-72</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="25">
+					<ReferenceId>10378696</ReferenceId>
+					<FullCitation>Nesbit CE, Tersak JM, Prochownik EV (1999) MYC oncogenes and human neoplastic disease. Oncogene 18(19):3004-16</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="39">
+					<ReferenceId>26977882</ReferenceId>
+					<FullCitation>Pei Y, Liu KW, Wang J, et al. (2016) HDAC and PI3K Antagonists Cooperate to Inhibit Growth of MYC-Driven Medulloblastoma. Cancer Cell 29(3):311-23</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="41">
+					<ReferenceId>23555992</ReferenceId>
+					<FullCitation>Pereira CB, Leal MF, de Souza CR, et al. (2013) Prognostic and predictive significance of MYC and KRAS alterations in breast cancer from women treated with neoadjuvant chemotherapy. PLoS ONE 8(3):e60576</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="10">
+					<ReferenceId>23079656</ReferenceId>
+					<FullCitation>Sawai CM, Freund J, Oh P, et al. (2012) Therapeutic targeting of the cyclin D3:CDK4/6 complex in T cell leukemia. Cancer Cell 22(4):452-65</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="8">
+					<ReferenceId>22885699</ReferenceId>
+					<FullCitation>Schmitz R, Young RM, Ceribelli M, et al. (2012) Burkitt lymphoma pathogenesis and therapeutic targets from structural and functional genomics. Nature 490(7418):116-20</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="17">
+					<ReferenceId>20610556</ReferenceId>
+					<FullCitation>Smida J, Baumhoer D, Rosemann M, et al. (2010) Genomic alterations and allelic imbalances are strong prognostic predictors in osteosarcoma. Clin Cancer Res 16(16):4256-67</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="0">
+					<ReferenceId>16584130</ReferenceId>
+					<FullCitation>Sridhar J, Akula N, Pattabiraman N (2006) Selectivity and potency of cyclin-dependent kinase inhibitors. AAPS J 8(1):E204-21</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="4">
+					<ReferenceId>18023328</ReferenceId>
+					<FullCitation>Takahashi-Yanaga F, Sasaguri T (2008) GSK-3beta regulates cyclin D1 expression: a new target for chemotherapy. Cell Signal 20(4):581-9</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="47">
+					<ReferenceId>26030518</ReferenceId>
+					<FullCitation>Turner NC, Ro J, André F, et al. (2015) Palbociclib in Hormone-Receptor-Positive Advanced Breast Cancer. N Engl J Med ePub Jun 2015</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="51">
+					<ReferenceId>25002028</ReferenceId>
+					<FullCitation>Vora SR, Juric D, Kim N, et al. (2014) CDK 4/6 Inhibitors Sensitize PIK3CA Mutant Breast Cancer to PI3K Inhibitors. Cancer Cell 26(1):136-49</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="16">
+					<ReferenceId>9935200</ReferenceId>
+					<FullCitation>Wei G, Lonardo F, Ueda T, et al. (1999) CDK4 gene amplification in osteosarcoma: reciprocal relationship with INK4A gene alterations and mapping of 12q13 amplicons. Int J Cancer 80(2):199-204</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="14">
+					<ReferenceId>7736585</ReferenceId>
+					<FullCitation>Weinberg RA (1995) The retinoblastoma protein and cell cycle control. Cell 81(3):323-30</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="15">
+					<ReferenceId>15543620</ReferenceId>
+					<FullCitation>Wikman H, Nymark P, Väyrynen A, et al. (2005) CDK4 is a probable target gene in a novel amplicon at 12q13.3-q14.1 in lung cancer. Genes Chromosomes Cancer 42(2):193-9</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="28">
+					<ReferenceId>21890444</ReferenceId>
+					<FullCitation>Wu X, Cai ZD, Lou LM, et al. (2012) Expressions of p53, c-MYC, BCL-2 and apoptotic index in human osteosarcoma and their correlations with prognosis of patients. Cancer Epidemiol 36(2):212-6</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="32">
+					<ReferenceId>20643922</ReferenceId>
+					<FullCitation>Yang D, Liu H, Goga A, et al. (2010) Therapeutic potential of a synthetic lethal interaction between the MYC proto-oncogene and inhibition of aurora-B kinase. Proc Natl Acad Sci USA 107(31):13836-41</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="42">
+					<ReferenceId>21741827</ReferenceId>
+					<FullCitation>Yasojima H, Shimomura A, Naoi Y, et al. (2011) Association between c-myc amplification and pathological complete response to neoadjuvant chemotherapy in breast cancer. Eur J Cancer 47(12):1779-88</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="20">
+					<ReferenceId>22301501</ReferenceId>
+					<FullCitation>Yoshida A, Ushiku T, Motoi T, et al. (2012) MDM2 and CDK4 immunohistochemical coexpression in high-grade osteosarcoma: correlation with a dedifferentiated subtype. Am J Surg Pathol 36(3):423-31</FullCitation>
+					<Include>true</Include>
+				</Reference>
+				<Reference number="40">
+					<ReferenceId>27049457</ReferenceId>
+					<FullCitation>Younes A, Berdeja JG, Patel MR, et al. (2016) Safety, tolerability, and preliminary activity of CUDC-907, a first-in-class, oral, dual inhibitor of HDAC and PI3K, in patients with relapsed or refractory lymphoma or multiple myeloma: an open-label, dose-escalation, phase 1 trial. Lancet Oncol ePub Mar 2016</FullCitation>
+					<Include>true</Include>
+				</Reference>
+			</References>
+			<Signatures>
+				<Signature>
+					<ServerTime>2016-08-25 20:47:43</ServerTime>
+					<OpName>Jo-Anne Vergilio</OpName>
+					<Text>Jo-Anne Vergilio, M.D. | Jeffrey S. Ross, M.D., Medical Director </Text>
+				</Signature>
+			</Signatures>
+			<reportProperties>
+				<reportProperty identifier="OptOut" key="ExcludeClinicalTrials">
+					<value>False</value>
+				</reportProperty>
+				<reportProperty identifier="OptOut" key="ExcludeTherapiesOnTumorType">
+					<value>False</value>
+				</reportProperty>
+				<reportProperty identifier="OptOut" key="ExcludeTherapiesOnOtherTumorType">
+					<value>False</value>
+				</reportProperty>
+				<reportProperty identifier="AdditionalFindings" key="TumorMutationBurdenScore">
+					<value>0.73 Muts/Mb</value>
+				</reportProperty>
+				<reportProperty identifier="LimsTemp" key="DiseaseOntology">
+					<value>PEDIATRIC Bone osteosarcoma</value>
+				</reportProperty>
+			</reportProperties>
+			<AAC>
+				<Amendmends/>
+			</AAC>
+			<SampleId>SMP37669.01</SampleId>
+		</FinalReport>
+		<variant-report xmlns="http://foundationmedicine.com/compbio/variant-report-external" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" disease="BONE" disease-ontology="PEDIATRIC Bone osteosarcoma" flowcell-analysis="10158" gender="male" pathology-diagnosis="Osteogenic sarcoma; Hx aggresive neoplasm suggestive osteosarcoma" percent-tumor-nuclei="60" pipeline-version="v2.7.0" purity-assessment="50" specimen="SMP37669.01" study="CLINICAL-HEME-COMPLETE" test-request="SMP37669" test-type="HemeComplete" tissue-of-origin="Bone" xsi:schemaLocation="http://foundationmedicine.com/compbio/variant-report-external http://www.foundationmedicine.com/compbio/variant-report-external-2.2.xsd">
+			<samples>
+				<sample bait-set="D2" mean-exon-depth="527.76" name="SA-1612348" nucleic-acid-type="DNA"/>
+			</samples>
+			<quality-control status="Qualified"/>
+			<short-variants>
+				<short-variant allele-fraction="0.4800" cds-effect="229C&gt;A" depth="536" equivocal="false" functional-effect="missense" gene="HDAC1" percent-reads="48.00" position="chr1:32782332" protein-effect="R77S" status="unknown" strand="+" transcript="NM_004964">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3700" cds-effect="497G&gt;A" depth="401" equivocal="false" functional-effect="missense" gene="HDAC7" percent-reads="37.00" position="chr12:48191247" protein-effect="R166H" status="unknown" strand="-" transcript="NM_015401">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.5100" cds-effect="1106G&gt;A" depth="493" equivocal="false" functional-effect="missense" gene="MYCN" percent-reads="51.00" position="chr2:16085930" protein-effect="S369N" status="unknown" strand="+" transcript="NM_005378">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.5000" cds-effect="785A&gt;G" depth="883" equivocal="false" functional-effect="missense" gene="NFE2L2" percent-reads="50.00" position="chr2:178096498" protein-effect="N262S" status="unknown" strand="-" transcript="NM_001145412">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3100" cds-effect="3908A&gt;G" depth="549" equivocal="false" functional-effect="missense" gene="NUP98" percent-reads="31.00" position="chr11:3720413" protein-effect="E1303G" status="unknown" strand="-" transcript="NM_016320">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4800" cds-effect="1321C&gt;T" depth="456" equivocal="false" functional-effect="missense" gene="TLL2" percent-reads="48.00" position="chr10:98157006" protein-effect="L441F" status="unknown" strand="-" transcript="NM_012465">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+			</short-variants>
+			<copy-number-alterations>
+				<copy-number-alteration copy-number="44" equivocal="false" gene="CDK4" number-of-exons="7 of 7" position="chr12:58093932-58188144" ratio="11.63" status="known" type="amplification">
+					<dna-evidence sample="SA-1612348"/>
+				</copy-number-alteration>
+				<copy-number-alteration copy-number="6" equivocal="true" gene="CCND3" number-of-exons="5 of 5" position="chr6:41853880-41956362" ratio="2.17" status="known" type="amplification">
+					<dna-evidence sample="SA-1612348"/>
+				</copy-number-alteration>
+				<copy-number-alteration copy-number="41" equivocal="false" gene="MYC" number-of-exons="5 of 5" position="chr8:128706589-128801451" ratio="10.34" status="known" type="amplification">
+					<dna-evidence sample="SA-1612348"/>
+				</copy-number-alteration>
+				<copy-number-alteration copy-number="6" equivocal="true" gene="PIM1" number-of-exons="7 of 7" position="chr6:37138078-37141867" ratio="2.14" status="unknown" type="amplification">
+					<dna-evidence sample="SA-1612348"/>
+				</copy-number-alteration>
+				<copy-number-alteration copy-number="7" equivocal="true" gene="RAD21" number-of-exons="13 of 13" position="chr8:117859738-117878968" ratio="2.69" status="unknown" type="amplification">
+					<dna-evidence sample="SA-1612348"/>
+				</copy-number-alteration>
+			</copy-number-alterations>
+			<rearrangements/>
+			<biomarkers>
+				<microsatellite-instability status="MSS"/>
+				<tumor-mutation-burden score="0.73" status="low" unit="mutations-per-megabase"/>
+			</biomarkers>
+			<non-human-content/>
+		</variant-report>
+	</rr:ResultsPayload>
+</rr:ResultsReport>

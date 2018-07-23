@@ -1,0 +1,22 @@
+FROM python:2.7-alpine
+
+LABEL name "foundation-xml-fhir"
+LABEL version "1.0.0"
+LABEL maintainer "LifeOmic <development@lifeomic.com>"
+
+ENV HGVS_VERSION 1.0.1
+
+RUN mkdir -p /opt \
+  && cd /opt \
+  && wget https://github.com/lifeomic/hgvs/archive/v${HGVS_VERSION}.tar.gz \
+  && tar -xvzf v${HGVS_VERSION}.tar.gz \
+  && rm v${HGVS_VERSION}.tar.gz \
+  && cd hgvs-${HGVS_VERSION} \
+  && python setup.py install
+
+RUN mkdir -p /opt/app
+WORKDIR /opt/app
+COPY . /opt/app
+RUN pip install -r requirements.txt
+
+ENTRYPOINT ["python", "/opt/app/src/convert.py"]
