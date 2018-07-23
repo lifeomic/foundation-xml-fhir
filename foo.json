@@ -1,0 +1,82 @@
+[
+    {
+        "name": [
+            {
+                "use": "official", 
+                "given": [
+                    "Test"
+                ], 
+                "family": "Patient"
+            }
+        ], 
+        "resourceType": "Patient", 
+        "gender": "Male", 
+        "birthDate": "2002-12-12", 
+        "meta": {
+            "tag": [
+                {
+                    "code": "1234", 
+                    "system": "http://lifeomic.com/fhir/dataset"
+                }
+            ]
+        }, 
+        "identifier": [
+            {
+                "type": {
+                    "coding": [
+                        {
+                            "code": "MR", 
+                            "system": "http://hl7.org/fhir/v2/0203"
+                        }
+                    ]
+                }, 
+                "value": "12345678"
+            }
+        ], 
+        "id": "bdedb4d3-1651-4679-ba3c-cbe780b97699"
+    }, 
+    {
+        "resourceType": "Specimen", 
+        "meta": {
+            "tag": [
+                {
+                    "code": "1234", 
+                    "system": "http://lifeomic.com/fhir/dataset"
+                }
+            ]
+        }, 
+        "id": "5a39bc53-7945-4685-b38f-0d7fd5513745", 
+        "identifier": [
+            {
+                "value": "SA-1612348"
+            }
+        ], 
+        "subject": {
+            "reference": "Patient/bdedb4d3-1651-4679-ba3c-cbe780b97699"
+        }
+    }, 
+    {
+        "referenceSeq": {
+            "genomeBuild": "GRCh37"
+        }, 
+        "meta": {
+            "tag": [
+                {
+                    "code": "1234", 
+                    "system": "http://lifeomic.com/fhir/dataset"
+                }
+            ]
+        }, 
+        "patient": {
+            "reference": "Patient/bdedb4d3-1651-4679-ba3c-cbe780b97699"
+        }, 
+        "resourceType": "Sequence", 
+        "variant": [], 
+        "specimen": {
+            "display": "SA-1612348", 
+            "reference": "Specimen/5a39bc53-7945-4685-b38f-0d7fd5513745"
+        }, 
+        "type": "dna", 
+        "id": "b338290f-7b20-4731-8a41-2e77428e36de"
+    }
+]

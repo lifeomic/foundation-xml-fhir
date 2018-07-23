@@ -15,6 +15,71 @@ def save_json(fhir_resources, out_file):
         json.dump(fhir_resources, fd, indent=4)
 
 
+def create_subject(results_payload_dict, project_id):
+    subject_id = str(uuid.uuid4())
+    pmi_dict = results_payload_dict['FinalReport']['PMI']
+
+    subject = {
+        'resourceType': 'Patient',
+        'meta': {
+            'tag': [
+                {
+                    'system': 'http://lifeomic.com/fhir/dataset',
+                    'code': project_id
+                }
+            ]
+        },
+        'name': [{
+            'use': 'official',
+            'family': pmi_dict['LastName'],
+            'given': [pmi_dict['FirstName']]
+        }],
+        'identifier': [{
+            'type': {
+                'coding': [{
+                    'system': 'http://hl7.org/fhir/v2/0203',
+                    'code': 'MR'
+                }]
+            },
+            'value': pmi_dict['MRN']
+        }],
+        'gender': pmi_dict['Gender'],
+        'birthDate': pmi_dict['DOB'],
+        'id': subject_id
+    }
+    return subject, subject_id
+
+
+def create_sequence(project_id, subject_id, specimen_id, specimen_name):
+    sequence_id = str(uuid.uuid4())
+
+    sequence = {
+        'resourceType': 'Sequence',
+        'type': 'dna',
+        'meta': {
+            'tag': [
+                {
+                    'system': 'http://lifeomic.com/fhir/dataset',
+                    'code': project_id
+                }
+            ]
+        },
+        'patient': {
+            'reference': 'Patient/{}'.format(subject_id)
+        },
+        'specimen': {
+            'display': specimen_name,
+            'reference': 'Specimen/{}'.format(specimen_id)
+        },
+        'referenceSeq': {
+            'genomeBuild': 'GRCh37'
+        },
+        'id': sequence_id,
+        'variant': []
+    }
+    return sequence, sequence_id
+
+
 def create_specimen(results_payload_dict, project_id, subject_id):
     specimen_name = results_payload_dict['variant-report']['samples']['sample']['@name']
     specimen_id = str(uuid.uuid4())
@@ -39,15 +104,21 @@ def create_specimen(results_payload_dict, project_id, subject_id):
         },
         'id': specimen_id
     }
-    return specimen, specimen_id
+    return specimen, specimen_id, specimen_name
 
 
-def process(results_payload_dict, project_id, subject_id, out_file):
+def process(results_payload_dict, project_id, subject_id):
     fhir_resources = []
-    specimen = create_specimen(
+    if subject_id is None:
+        subject, subject_id = create_subject(results_payload_dict, project_id)
+        fhir_resources.append(subject)
+
+    specimen, specimen_id, specimen_name = create_specimen(
         results_payload_dict, project_id, subject_id)
+    sequence, _ = create_sequence(project_id, subject_id, specimen_id, specimen_name)
     fhir_resources.append(specimen)
-    save_json(fhir_resources, out_file)
+    fhir_resources.append(sequence)
+    return fhir_resources
 
 
 def main():
@@ -57,7 +128,7 @@ def main():
                         required=True, help='Path to the XML file')
     parser.add_argument('-p, --project', dest='project_id', required=True,
                         help='The ID of the project to link the resources to')
-    parser.add_argument('-s, --subject', dest='subject_id', required=True,
+    parser.add_argument('-s, --subject', dest='subject_id', required=False,
                         help='The ID of the subject/patient to link the resources to')
     parser.add_argument('-o, --output', dest='out_file',
                         required=True, help='Path to write the FHIR JSON resources')
@@ -65,8 +136,9 @@ def main():
     args = parser.parse_args()
 
     xml_dict = read_xml(args.xml_file)
-    process(xml_dict['rr:ResultsReport']['rr:ResultsPayload'],
-            args.project_id, args.subject_id, args.out_file)
+    fhir_resources = process(xml_dict['rr:ResultsReport']['rr:ResultsPayload'],
+                             args.project_id, args.subject_id)
+    save_json(fhir_resources, args.out_file)
 
 
 if __name__ == "__main__":
