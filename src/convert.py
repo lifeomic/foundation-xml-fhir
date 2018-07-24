@@ -231,10 +231,10 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
         'subject': {
             'reference': 'Patient/{}'.format(subject_id)
         },
-        'specimen': {
+        'specimen': [{
             'display': specimen_name,
             'reference': 'Specimen/{}'.format(specimen_id)
-        },
+        }],
         'result': [],
         'id': report_id
     }
@@ -277,7 +277,7 @@ def create_subject(results_payload_dict, project_id):
             },
             'value': pmi_dict['MRN']
         }],
-        'gender': pmi_dict['Gender'],
+        'gender': pmi_dict['Gender'].lower(),
         'birthDate': pmi_dict['DOB'],
         'id': subject_id
     }

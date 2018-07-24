@@ -8,7 +8,7 @@ results_payload_dict = {
             'LastName': 'doe',
             'FirstName': 'jane',
             'MRN': '1234',
-            'Gender': 'female',
+            'Gender': 'Female',
             'DOB': '1970-01-01',
             'CollDate': '2000-01-01',
             'SubmittedDiagnosis': 'Cancer'
@@ -199,10 +199,10 @@ class ConvertTest(TestCase):
             'subject': {
                 'reference': 'Patient/subject1'
             },
-            'specimen': {
+            'specimen': [{
                 'display': 'sample1',
                 'reference': 'Specimen/{}'.format(specimen['id'])
-            },
+            }],
             'result': [
                 {
                     'reference': 'Observation/{}'.format(observation['id'])
