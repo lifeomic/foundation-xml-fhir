@@ -2,6 +2,7 @@
 .git
 .cache
 .vscode
+.tox
 test
 
 *.md
