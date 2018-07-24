@@ -1,8 +1,18 @@
 #!/usr/bin/env python
 import argparse
 import json
+import logging
 import uuid
 import xmltodict
+import os
+import gzip
+import shutil
+from utils import parse_hgvs
+
+
+logging.basicConfig(level=logging.INFO,
+                    format='[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s')
+logger = logging.getLogger(__name__)
 
 
 def read_xml(xml_file):
@@ -15,14 +25,33 @@ def save_json(fhir_resources, out_file):
         json.dump(fhir_resources, fd, indent=4)
 
 
-def create_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+def unzip(zipped_file):
+    unzipped_file = os.path.splitext(zipped_file)[0]
+    logger.info('Unzipping %s to %s', zipped_file, unzipped_file)
+
+    with gzip.open(zipped_file, "rb") as f_in, open(unzipped_file, "wb") as f_out:
+        shutil.copyfileobj(f_in, f_out)
+
+    logger.info('Unzipping completed')
+    return unzipped_file
+
+
+def create_observation(fasta, genes, project_id, subject_id, specimen_id, specimen_name, sequence_id):
     def create(variant_dict):
         observation_id = str(uuid.uuid4())
         position_value = variant_dict['@position']
         region, position = position_value.split(':')
+        transcript = variant_dict['@transcript']
+        cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
+        chrom, offset, ref, alt = parse_hgvs(
+            '{}:c.{}'.format(transcript, cds_effect), fasta, genes)
 
         observation = {
             'resourceType': 'Observation',
+            'identifier': [{
+                'system': 'https://lifeomic.com/observation/genetic',
+                'value': '{}:{}:{}:{}'.format(chrom, offset, ref, alt)
+            }],
             'meta': {
                 'tag': [
                     {
@@ -312,38 +341,48 @@ def create_specimen(results_payload_dict, project_id, subject_id):
     return specimen, specimen_id, specimen_name
 
 
-def process(results_payload_dict, project_id, subject_id, file_url=None):
+def process(results_payload_dict, args):
     fhir_resources = []
+    subject_id = args.subject_id
+
     if subject_id is None:
-        subject, subject_id = create_subject(results_payload_dict, project_id)
+        subject, subject_id = create_subject(
+            results_payload_dict, args.project_id)
         fhir_resources.append(subject)
 
     specimen, specimen_id, specimen_name = create_specimen(
-        results_payload_dict, project_id, subject_id)
+        results_payload_dict, args.project_id, subject_id)
     sequence, sequence_id = create_sequence(
-        project_id, subject_id, specimen_id, specimen_name)
-    report = create_report(results_payload_dict, project_id,
-                           subject_id, specimen_id, specimen_name, file_url)
+        args.project_id, subject_id, specimen_id, specimen_name)
+    report = create_report(results_payload_dict, args.project_id,
+                           subject_id, specimen_id, specimen_name, args.file_url)
 
     observations = []
     if ('short-variants' in results_payload_dict['variant-report'].keys() and
             'short-variant' in results_payload_dict['variant-report']['short-variants'].keys()):
-        observations = list(map(create_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id),
+        observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
                                 results_payload_dict['variant-report']['short-variants']['short-variant']))
 
-    report['result'] = [{'reference': 'Observation/{}'.format(x['id'])} for x in observations]
-    sequence['variant'] = [{'reference': 'Observation/{}'.format(x['id'])} for x in observations]
+    report['result'] = [
+        {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
+    sequence['variant'] = [
+        {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
 
     fhir_resources.append(specimen)
     fhir_resources.append(sequence)
     fhir_resources.append(report)
     fhir_resources = fhir_resources + observations
+    logger.info('Created %d FHIR resources', len(fhir_resources))
     return fhir_resources
 
 
 def main():
     parser = argparse.ArgumentParser(
         prog='foundation-xml-fhir', description='Converts FoundationOne XML reports into FHIR resources.')
+    parser.add_argument('-r, --reference', dest='fasta',
+                        required=True, help='Path to reference genome')
+    parser.add_argument('-g, --genes', dest='genes',
+                        required=False, help='Path to genes file', default='/opt/app/refGene.hg19.txt')
     parser.add_argument('-x, --xml', dest='xml_file',
                         required=True, help='Path to the XML file')
     parser.add_argument('-p, --project', dest='project_id', required=True,
@@ -356,11 +395,20 @@ def main():
                         required=False, help='The URL to the PDF Report in the PHC')
 
     args = parser.parse_args()
+    logger.info('Converting XML to FHIR with args: %s',
+                json.dumps(args.__dict__))
+
+    # pyfaidx has a bug with bgzipped files.  Unzip the genome for now
+    # https://github.com/mdshw5/pyfaidx/issues/125
+    if (args.fasta.lower().endswith('.bgz') or
+            args.fasta.lower().endswith('.gz')):
+        args.fasta = unzip(args.fasta)
 
     xml_dict = read_xml(args.xml_file)
-    fhir_resources = process(xml_dict['rr:ResultsReport']['rr:ResultsPayload'],
-                             args.project_id, args.subject_id, args.file_url)
+    fhir_resources = process(
+        xml_dict['rr:ResultsReport']['rr:ResultsPayload'], args)
     save_json(fhir_resources, args.out_file)
+    logger.info('Saved FHIR resources to %s', args.out_file)
 
 
 if __name__ == '__main__':

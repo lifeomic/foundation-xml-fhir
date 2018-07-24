@@ -1,3 +1,4 @@
+from mock import patch
 from unittest import TestCase
 from src.convert import process
 
@@ -22,27 +23,46 @@ results_payload_dict = {
                 '@name': 'sample1'
             }
         },
-        'short-variants': [
-            {
-                '@gene': 'gene1',
-                '@cds-effect': '229C&gt;A',
-                '@functional-effect': 'missense',
-                '@allele-fraction': 0.488,
-                '@position': 'chr1:100',
-                '@depth': 200,
-                '@transcript': 'NM_001',
-                '@status': 'known',
-                '@protein-effect': 'R77S'
-            }
-        ]
+        'short-variants': {
+            'short-variant': [
+                {
+                    '@gene': 'gene1',
+                    '@cds-effect': '229C&gt;A',
+                    '@functional-effect': 'missense',
+                    '@allele-fraction': 0.488,
+                    '@position': 'chr1:100',
+                    '@depth': 200,
+                    '@transcript': 'NM_001',
+                    '@status': 'known',
+                    '@protein-effect': 'R77S'
+                }
+            ]
+        }
     }
 }
 
 
+class Args:
+    pass
+
 class ConvertTest(TestCase):
-    def test_convert_with_subject(self):
+    def setUp(self):
+        self.args = Args()
+        self.args.project_id = 'project1'
+        self.args.subject_id = 'subject1'
+        self.args.fasta = 'genome.fasta'
+        self.args.genes = 'genes.ref'
+        self.args.file_url = None
+
+    @patch("src.convert.parse_hgvs")
+    def test_convert_with_subject(self, mock_parse_hgvs):
         self.maxDiff = None
-        fhir_resources = process(results_payload_dict, 'project1', 'subject1')
+        mock_parse_hgvs.return_value = 'chr1', 100, 'A', 'T'
+
+        fhir_resources = process(results_payload_dict, self.args)
+
+        mock_parse_hgvs.assert_called_once_with('NM_001:c.229C>A', self.args.fasta, self.args.genes)
+
         specimen = fhir_resources[0]
         self.assertDictEqual(specimen, {
             'resourceType': 'Specimen',
@@ -117,6 +137,8 @@ class ConvertTest(TestCase):
             'resourceType': 'Observation',
             'specimen': {'display': 'sample1',
                          'reference': 'Specimen/{}'.format(specimen['id'])},
+            'identifier': [{'system': 'https://lifeomic.com/observation/genetic',
+                          'value': 'chr1:100:A:T'}],
             'status': 'known',
             'subject': {'reference': 'Patient/subject1'}
         })
@@ -189,8 +211,12 @@ class ConvertTest(TestCase):
             'id': report['id']
         })
 
-    def test_convert_with_no_subject(self):
-        fhir_resources = process(results_payload_dict, 'project1', None)
+    @patch("src.convert.parse_hgvs")
+    def test_convert_with_no_subject(self, mock_parse_hgvs):
+        mock_parse_hgvs.return_value = 'chr1', 100, 'A', 'T'
+        self.args.subject_id = None
+
+        fhir_resources = process(results_payload_dict, self.args)
         self.assertEquals(len(fhir_resources), 5)
         subject = fhir_resources[0]
         self.assertDictEqual(subject, {

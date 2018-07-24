@@ -1,10 +1,10 @@
-FROM python:2.7-alpine
+FROM python:2.7-jessie
 
 LABEL name "foundation-xml-fhir"
 LABEL version "1.0.0"
 LABEL maintainer "LifeOmic <development@lifeomic.com>"
 
-ENV HGVS_VERSION 1.0.1
+ENV HGVS_VERSION 1.0.4
 
 RUN mkdir -p /opt \
   && cd /opt \
@@ -18,5 +18,6 @@ RUN mkdir -p /opt/app
 WORKDIR /opt/app
 COPY . /opt/app
 RUN pip install -r requirements.txt
+RUN cp /opt/hgvs-${HGVS_VERSION}/pyhgvs/data/refGene.hg19.txt /opt/app/refGene.hg19.txt
 
 ENTRYPOINT ["python", "/opt/app/src/convert.py"]
