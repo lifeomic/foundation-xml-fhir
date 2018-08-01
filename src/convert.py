@@ -43,8 +43,9 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
         region, position = position_value.split(':')
         transcript = variant_dict['@transcript']
         cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
-        chrom, offset, ref, alt = parse_hgvs(
-            '{}:c.{}'.format(transcript, cds_effect), fasta, genes)
+        variant_name = '{}:c.{}'.format(transcript, cds_effect)
+        chrom, offset, ref, alt = parse_hgvs(variant_name, fasta, genes)
+        variantReadCount = int(round(int(variant_dict['@depth']) * float(variant_dict['@allele-fraction'])))
 
         observation = {
             'resourceType': 'Observation',
@@ -88,7 +89,7 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                             {
                                 'system': 'http://loinc.org',
                                 'code': '48004-6',
-                                'display': variant_dict['@cds-effect'].replace('&gt;', '>')
+                                'display': variant_name
                             }
                         ]
                     }
@@ -112,7 +113,7 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                             {
                                 'system': 'http://loinc.org',
                                 'code': '48005-3',
-                                'display': variant_dict['@protein-effect']
+                                'display': 'p.{}'.format(variant_dict['@protein-effect'])
                             }
                         ]
                     }
@@ -179,6 +180,18 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                                 'system': 'http://loinc.org',
                                 'code': '82121-5',
                                 'display': variant_dict['@depth']
+                            }
+                        ]
+                    }
+                },
+                {
+                    "url": "http://lifeomic.com/fhir/StructureDefinition/observation-geneticsVariantReadCount",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://loinc.org",
+                                "code": "82121-5",
+                                "display": str(variantReadCount)
                             }
                         ]
                     }
