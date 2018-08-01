@@ -191,7 +191,7 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                             {
                                 "system": "http://loinc.org",
                                 "code": "82121-5",
-                                "display": variantReadCount
+                                "display": str(variantReadCount)
                             }
                         ]
                     }

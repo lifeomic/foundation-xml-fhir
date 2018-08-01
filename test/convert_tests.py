@@ -129,7 +129,7 @@ class ConvertTest(TestCase):
                                                                 'system': 'http://loinc.org'}]}},
                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsVariantReadCount',
                            'valueCodeableConcept': {'coding': [{'code': '82121-5',
-                                                                'display': 98,
+                                                                'display': '98',
                                                                 'system': 'http://loinc.org'}]}},
                           {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsTranscriptID',
                            'valueCodeableConcept': {'coding': [{'code': '51958-7',
