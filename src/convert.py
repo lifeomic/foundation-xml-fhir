@@ -45,7 +45,7 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
         cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
         variant_name = '{}:c.{}'.format(transcript, cds_effect)
         chrom, offset, ref, alt = parse_hgvs(variant_name, fasta, genes)
-        varintReadCount = int(round(int(variant_dict['@depth']) * float(variant_dict['@allele-fraction'])))
+        variantReadCount = int(round(int(variant_dict['@depth']) * float(variant_dict['@allele-fraction'])))
 
         observation = {
             'resourceType': 'Observation',
@@ -191,7 +191,7 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                             {
                                 "system": "http://loinc.org",
                                 "code": "82121-5",
-                                "display": varintReadCount
+                                "display": variantReadCount
                             }
                         ]
                     }
