@@ -37,6 +37,17 @@ results_payload_dict = {
                     '@protein-effect': 'R77S'
                 }
             ]
+        },
+        'copy-number-alterations': {
+            'copy-number-alteration': [
+                {
+                    '@gene': 'CDK4',
+                    '@position': 'chr12:58093932-58188144',
+                    '@copy-number': '44',
+                    '@status': 'known',
+                    '@type': 'amplification'
+                }
+            ]
         }
     }
 }
@@ -87,6 +98,7 @@ class ConvertTest(TestCase):
 
         sequence = fhir_resources[1]
         observation = fhir_resources[3]
+        copy_number_observation = fhir_resources[4]
 
         self.assertDictEqual(observation, {
             'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
@@ -143,8 +155,81 @@ class ConvertTest(TestCase):
                          'reference': 'Specimen/{}'.format(specimen['id'])},
             'identifier': [{'system': 'https://lifeomic.com/observation/genetic',
                           'value': 'chr1:100:A:T'}],
-            'status': 'known',
-            'subject': {'reference': 'Patient/subject1'}
+            'status': 'final',
+            'subject': {'reference': 'Patient/subject1'},
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': 'known',
+                    'display': 'Foundation - Known'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            }
+        })
+
+        self.assertDictEqual(copy_number_observation, {
+            'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
+                           'valueCodeableConcept': {'coding': [{'code': '1100',
+                                                                'display': 'CDK4',
+                                                                'system': 'http://www.genenames.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass',
+                           'valueCodeableConcept': {'coding': [{'code': '48002-0',
+                                                                'display': 'somatic',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
+                           'valueCodeableConcept': {'coding': [{'code': '48001-2',
+                                                                'display': '58093932-58188144',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAChromosome',
+                           'valueCodeableConcept': {'coding': [{'code': '47999-8',
+                                                                'display': 'chr12',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsCopyNumberEvent',
+                           'valueCodeableConcept': {'coding': [{'code': 'SO:0001019',
+                                                                'display': 'amplification',
+                                                                'system': 'http://www.sequenceontology.org'}]}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-copyNumber',
+                           'valueCodeableConcept': {'coding': [{'code': 'copyNumber',
+                                                                'display': '44',
+                                                                'system': 'http://lifeomic.com'}]}}],
+            'id': copy_number_observation['id'],
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'}]},
+            'resourceType': 'Observation',
+            'specimen': {'display': 'sample1',
+                         'reference': 'Specimen/{}'.format(specimen['id'])},
+            'status': 'final',
+            'subject': {'reference': 'Patient/subject1'},
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': 'known',
+                    'display': 'Foundation - Known'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            }
         })
 
         self.assertDictEqual(sequence, {
@@ -172,6 +257,9 @@ class ConvertTest(TestCase):
             'variant': [
                 {
                     'reference': 'Observation/{}'.format(observation['id'])
+                },
+                {
+                    'reference': 'Observation/{}'.format(copy_number_observation['id'])
                 }
             ]
         })
@@ -210,6 +298,9 @@ class ConvertTest(TestCase):
             'result': [
                 {
                     'reference': 'Observation/{}'.format(observation['id'])
+                },
+                 {
+                    'reference': 'Observation/{}'.format(copy_number_observation['id'])
                 }
             ],
             'id': report['id']
@@ -221,7 +312,7 @@ class ConvertTest(TestCase):
         self.args.subject_id = None
 
         fhir_resources = process(results_payload_dict, self.args)
-        self.assertEquals(len(fhir_resources), 5)
+        self.assertEquals(len(fhir_resources), 6)
         subject = fhir_resources[0]
         self.assertDictEqual(subject, {
             'resourceType': 'Patient',
