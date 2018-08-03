@@ -91,6 +91,18 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
                     }
                 },
                 {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsDNASequenceVariantName',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48004-6',
+                                'display': '{}: CN={}'.format(variant_dict['@type'].title(), variant_dict['@copy-number'])
+                            }
+                        ]
+                    }
+                },
+                {
                     'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass',
                     'valueCodeableConcept': {
                         'coding': [
