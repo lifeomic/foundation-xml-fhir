@@ -35,6 +35,144 @@ def unzip(zipped_file):
     logger.info('Unzipping completed')
     return unzipped_file
 
+def create_copy_number_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+    def create(variant_dict):
+        observation_id = str(uuid.uuid4())
+        position_value = variant_dict['@position']
+        region, position = position_value.split(':')
+
+        observation = {
+            'resourceType': 'Observation',
+            'meta': {
+                'tag': [
+                    {
+                        'system': 'http://lifeomic.com/fhir/dataset',
+                        'code': project_id
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            },
+            'status': 'final',
+            'subject': {
+                'reference': 'Patient/{}'.format(subject_id)
+            },
+            'specimen': {
+                'display': specimen_name,
+                'reference': 'Specimen/{}'.format(specimen_id)
+            },
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': variant_dict['@status'],
+                    'display': 'Foundation - {}'.format(variant_dict['@status'].title())
+                    }
+                ]
+            },
+            'extension': [
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://www.genenames.org',
+                                'code': '1100',
+                                'display': variant_dict['@gene']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsDNASequenceVariantName',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48004-6',
+                                'display': '{}: CN={}'.format(variant_dict['@type'].title(), variant_dict['@copy-number'])
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48002-0',
+                                'display': 'somatic'
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                    'valueReference': {
+                        'reference': 'Sequence/{}'.format(sequence_id)
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48001-2',
+                                'display': position
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAChromosome',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '47999-8',
+                                'display': region
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsCopyNumberEvent',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://www.sequenceontology.org',
+                                'code': 'SO:0001019',
+                                'display': variant_dict['@type']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-copyNumber',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://lifeomic.com',
+                                'code': 'copyNumber',
+                                'display': variant_dict['@copy-number']
+                            }
+                        ]
+                    }
+                }
+            ],
+            'id': observation_id
+        }
+        return observation
+    return create
 
 def create_observation(fasta, genes, project_id, subject_id, specimen_id, specimen_name, sequence_id):
     def create(variant_dict):
@@ -61,13 +199,31 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                     }
                 ]
             },
-            'status': variant_dict['@status'],
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            },
+            'status': 'final',
             'subject': {
                 'reference': 'Patient/{}'.format(subject_id)
             },
             'specimen': {
                 'display': specimen_name,
                 'reference': 'Specimen/{}'.format(specimen_id)
+            },
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': variant_dict['@status'],
+                    'display': 'Foundation - {}'.format(variant_dict['@status'].title())
+                    }
+                ]
             },
             'extension': [
                 {
@@ -375,6 +531,11 @@ def process(results_payload_dict, args):
             'short-variant' in results_payload_dict['variant-report']['short-variants'].keys()):
         observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
                                 results_payload_dict['variant-report']['short-variants']['short-variant']))
+
+    if ('copy-number-alterations' in results_payload_dict['variant-report'].keys() and
+            'copy-number-alteration' in results_payload_dict['variant-report']['copy-number-alterations'].keys()):
+        observations.extend(list(map(create_copy_number_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
+                                results_payload_dict['variant-report']['copy-number-alterations']['copy-number-alteration'])))
 
     report['result'] = [
         {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
