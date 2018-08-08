@@ -395,7 +395,7 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
         ],
         'status': 'final',
         'code': {
-            'test': results_payload_dict['FinalReport']['Sample']['TestType']
+            'text': results_payload_dict['FinalReport']['Sample']['TestType']
         },
         'issued': results_payload_dict['FinalReport']['PMI']['CollDate'],
         'subject': {
