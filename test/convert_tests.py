@@ -289,7 +289,7 @@ class ConvertTest(TestCase):
             ],
             'status': 'final',
             'code': {
-                'test': 'Test 1'
+                'text': 'Test 1'
             },
             'issued': '2000-01-01',
             'subject': {

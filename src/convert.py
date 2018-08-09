@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+import base64
 import json
 import logging
 import uuid
@@ -394,7 +395,7 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
         ],
         'status': 'final',
         'code': {
-            'test': results_payload_dict['FinalReport']['Sample']['TestType']
+            'text': results_payload_dict['FinalReport']['Sample']['TestType']
         },
         'issued': results_payload_dict['FinalReport']['PMI']['CollDate'],
         'subject': {
@@ -409,11 +410,11 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
     }
 
     if file_url is not None:
-        report['presentedForm'] = {
+        report['presentedForm'] = [{
             'url': file_url,
             'contentType': 'application/pdf',
             'title': results_payload_dict['FinalReport']['Sample']['TestType']
-        }
+        }]
 
     return report
 
@@ -547,6 +548,7 @@ def process(results_payload_dict, args):
     fhir_resources.append(report)
     fhir_resources = fhir_resources + observations
     logger.info('Created %d FHIR resources', len(fhir_resources))
+
     return fhir_resources
 
 
@@ -567,6 +569,8 @@ def main():
                         required=True, help='Path to write the FHIR JSON resources')
     parser.add_argument('-f, --file', dest='file_url',
                         required=False, help='The URL to the PDF Report in the PHC')
+    parser.add_argument('-d, --pdf-output', dest='pdf_out_file',
+                        required=False, help='Path to write the PDF file', default=None)
 
     args = parser.parse_args()
     logger.info('Converting XML to FHIR with args: %s',
@@ -583,6 +587,12 @@ def main():
         xml_dict['rr:ResultsReport']['rr:ResultsPayload'], args)
     save_json(fhir_resources, args.out_file)
     logger.info('Saved FHIR resources to %s', args.out_file)
+
+    if args.pdf_out_file is not None and 'ReportPDF' in xml_dict['rr:ResultsReport']['rr:ResultsPayload']:
+        pdf = base64.b64decode(xml_dict['rr:ResultsReport']['rr:ResultsPayload']['ReportPDF'])
+        with open(args.pdf_out_file, "w") as pdf_file:
+            pdf_file.write(pdf)
+        logger.info('Saved PDF report to %s', args.pdf_out_file)
 
 
 if __name__ == '__main__':
