@@ -45,7 +45,8 @@ results_payload_dict = {
                     '@position': 'chr12:58093932-58188144',
                     '@copy-number': '44',
                     '@status': 'known',
-                    '@type': 'amplification'
+                    '@type': 'amplification',
+                    '@number-of-exons': '5 of 5'
                 }
             ]
         }
@@ -82,6 +83,10 @@ class ConvertTest(TestCase):
                     {
                         'system': 'http://lifeomic.com/fhir/dataset',
                         'code': 'project1'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
                     }
                 ]
             },
@@ -149,7 +154,11 @@ class ConvertTest(TestCase):
                                                                 'system': 'http://loinc.org'}]}}],
             'id': observation['id'],
             'meta': {'tag': [{'code': 'project1',
-                              'system': 'http://lifeomic.com/fhir/dataset'}]},
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                              {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    }]},
             'resourceType': 'Observation',
             'specimen': {'display': 'sample1',
                          'reference': 'Specimen/{}'.format(specimen['id'])},
@@ -204,13 +213,21 @@ class ConvertTest(TestCase):
                            'valueCodeableConcept': {'coding': [{'code': 'SO:0001019',
                                                                 'display': 'amplification',
                                                                 'system': 'http://www.sequenceontology.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAminoAcidChangeName',
+                           'valueCodeableConcept': {'coding': [{'code': '48005-3',
+                                                                'display': 'Exons 5 of 5',
+                                                                'system': 'http://loinc.org'}]}},
                           {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-copyNumber',
                            'valueCodeableConcept': {'coding': [{'code': 'copyNumber',
                                                                 'display': '44',
                                                                 'system': 'http://lifeomic.com'}]}}],
             'id': copy_number_observation['id'],
             'meta': {'tag': [{'code': 'project1',
-                              'system': 'http://lifeomic.com/fhir/dataset'}]},
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                              {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    }]},
             'resourceType': 'Observation',
             'specimen': {'display': 'sample1',
                          'reference': 'Specimen/{}'.format(specimen['id'])},
@@ -239,14 +256,12 @@ class ConvertTest(TestCase):
         self.assertDictEqual(sequence, {
             'resourceType': 'Sequence',
             'type': 'dna',
-            'meta': {
-                'tag': [
-                    {
-                        'system': 'http://lifeomic.com/fhir/dataset',
-                        'code': 'project1'
-                    }
-                ]
-            },
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                              {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    }]},
             'patient': {
                 'reference': 'Patient/subject1'
             },
@@ -271,14 +286,12 @@ class ConvertTest(TestCase):
         report = fhir_resources[2]
         self.assertDictEqual(report, {
             'resourceType': 'DiagnosticReport',
-            'meta': {
-                'tag': [
-                    {
-                        'system': 'http://lifeomic.com/fhir/dataset',
-                        'code': 'project1'
-                    }
-                ]
-            },
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                             {
+                'system': 'http://lifeomic.com/fhir/source',
+                'code': 'LifeOmic Task Service'
+            }]},
             'extension': [
                 {
                     'url': 'http://hl7.org/fhir/StructureDefinition/DiagnosticReport-geneticsAssessedCondition',
@@ -303,7 +316,7 @@ class ConvertTest(TestCase):
                 {
                     'reference': 'Observation/{}'.format(observation['id'])
                 },
-                 {
+                {
                     'reference': 'Observation/{}'.format(copy_number_observation['id'])
                 }
             ],
@@ -320,14 +333,12 @@ class ConvertTest(TestCase):
         subject = fhir_resources[0]
         self.assertDictEqual(subject, {
             'resourceType': 'Patient',
-            'meta': {
-                'tag': [
-                    {
-                        'system': 'http://lifeomic.com/fhir/dataset',
-                        'code': 'project1'
-                    }
-                ]
-            },
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                             {
+                'system': 'http://lifeomic.com/fhir/source',
+                'code': 'LifeOmic Task Service'
+            }]},
             'name': [{
                 'use': 'official',
                 'family': 'doe',

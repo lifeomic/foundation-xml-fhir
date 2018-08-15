@@ -36,6 +36,7 @@ def unzip(zipped_file):
     logger.info('Unzipping completed')
     return unzipped_file
 
+
 def create_copy_number_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
     def create(variant_dict):
         observation_id = str(uuid.uuid4())
@@ -49,6 +50,10 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
                     {
                         'system': 'http://lifeomic.com/fhir/dataset',
                         'code': project_id
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
                     }
                 ]
             },
@@ -158,6 +163,18 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
                     }
                 },
                 {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAminoAcidChangeName',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48005-3',
+                                'display': 'Exons {}'.format(variant_dict['@number-of-exons'])
+                            }
+                        ]
+                    }
+                },
+                {
                     'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-copyNumber',
                     'valueCodeableConcept': {
                         'coding': [
@@ -174,6 +191,7 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
         }
         return observation
     return create
+
 
 def create_observation(fasta, genes, project_id, subject_id, specimen_id, specimen_name, sequence_id):
     def create(variant_dict):
@@ -197,6 +215,10 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                     {
                         'system': 'http://lifeomic.com/fhir/dataset',
                         'code': project_id
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
                     }
                 ]
             },
@@ -382,6 +404,10 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
                 {
                     'system': 'http://lifeomic.com/fhir/dataset',
                     'code': project_id
+                },
+                {
+                    'system': 'http://lifeomic.com/fhir/source',
+                    'code': 'LifeOmic Task Service'
                 }
             ]
         },
@@ -430,6 +456,10 @@ def create_subject(results_payload_dict, project_id):
                 {
                     'system': 'http://lifeomic.com/fhir/dataset',
                     'code': project_id
+                },
+                {
+                    'system': 'http://lifeomic.com/fhir/source',
+                    'code': 'LifeOmic Task Service'
                 }
             ]
         },
@@ -465,6 +495,10 @@ def create_sequence(project_id, subject_id, specimen_id, specimen_name):
                 {
                     'system': 'http://lifeomic.com/fhir/dataset',
                     'code': project_id
+                },
+                {
+                    'system': 'http://lifeomic.com/fhir/source',
+                    'code': 'LifeOmic Task Service'
                 }
             ]
         },
@@ -495,6 +529,10 @@ def create_specimen(results_payload_dict, project_id, subject_id):
                 {
                     'system': 'http://lifeomic.com/fhir/dataset',
                     'code': project_id
+                },
+                {
+                    'system': 'http://lifeomic.com/fhir/source',
+                    'code': 'LifeOmic Task Service'
                 }
             ]
         },
