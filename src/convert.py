@@ -8,7 +8,6 @@ import xmltodict
 import os
 import gzip
 import shutil
-import datetime
 from utils import parse_hgvs
 from subprocess import call
 
@@ -558,7 +557,6 @@ def write_vcf(results_payload_dict, fasta, genes, vcf_out_file):
 
     with open('./unsorted.vcf', 'w+') as vcf_file:
         vcf_file.write('##fileformat=VCFv4.2\n')
-        vcf_file.write('##fileDate={}\n'.format(datetime.date.today()))
         vcf_file.write('##source=foundation-xml-fhir\n')
         vcf_file.write('##reference=file://{}\n'.format(fasta))
         vcf_file.write('##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">\n')

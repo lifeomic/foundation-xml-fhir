@@ -1,5 +1,4 @@
 ##fileformat=VCFv4.2
-##fileDate=2018-09-06
 ##source=foundation-xml-fhir
 ##reference=file://genome.fasta
 ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
