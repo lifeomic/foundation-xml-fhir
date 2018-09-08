@@ -122,12 +122,6 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
                     }
                 },
                 {
-                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
-                    'valueReference': {
-                        'reference': 'Sequence/{}'.format(sequence_id)
-                    }
-                },
-                {
                     'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
                     'valueCodeableConcept': {
                         'coding': [
@@ -190,6 +184,14 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
             ],
             'id': observation_id
         }
+
+        if sequence_id is not None:
+            observation['extension'].append({
+                'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                'valueReference': {
+                    'reference': 'Sequence/{}'.format(sequence_id)
+                }
+            })
         return observation
     return create
 
@@ -323,12 +325,6 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                     }
                 },
                 {
-                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
-                    'valueReference': {
-                        'reference': 'Sequence/{}'.format(sequence_id)
-                    }
-                },
-                {
                     'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
                     'valueCodeableConcept': {
                         'coding': [
@@ -391,6 +387,14 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
             ],
             'id': observation_id
         }
+
+        if sequence_id is not None:
+            observation['extension'].append({
+                'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                'valueReference': {
+                    'reference': 'Sequence/{}'.format(sequence_id)
+                }
+            })
         return observation
     return create
 
@@ -614,6 +618,7 @@ def process(results_payload_dict, args):
 
     specimen_name = None
     specimen_id = None
+    sequence_id = None
 
     if (args.vcf_out_file is None):
         specimen, specimen_id, specimen_name = create_specimen(
@@ -631,19 +636,19 @@ def process(results_payload_dict, args):
             'short-variant' in results_payload_dict['variant-report']['short-variants'].keys()):
         if (args.vcf_out_file is not None):
             write_vcf(results_payload_dict, args.fasta, args.genes, args.vcf_out_file)
-        else:
-            observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
-                                results_payload_dict['variant-report']['short-variants']['short-variant']))
 
-    if (args.vcf_out_file is None and
-            'copy-number-alterations' in results_payload_dict['variant-report'].keys() and
+        observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
+                            results_payload_dict['variant-report']['short-variants']['short-variant']))
+
+    if ('copy-number-alterations' in results_payload_dict['variant-report'].keys() and
             'copy-number-alteration' in results_payload_dict['variant-report']['copy-number-alterations'].keys()):
         observations.extend(list(map(create_copy_number_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
                                 results_payload_dict['variant-report']['copy-number-alterations']['copy-number-alteration'])))
 
+    report['result'] = [
+        {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
+
     if (args.vcf_out_file is None):
-        report['result'] = [
-            {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
         sequence['variant'] = [
             {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
 
