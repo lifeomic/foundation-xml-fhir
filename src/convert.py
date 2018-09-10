@@ -71,10 +71,6 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
             'subject': {
                 'reference': 'Patient/{}'.format(subject_id)
             },
-            'specimen': {
-                'display': specimen_name,
-                'reference': 'Specimen/{}'.format(specimen_id)
-            },
             'valueCodeableConcept': {
                 'coding': [
                     {
@@ -184,6 +180,12 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
             ],
             'id': observation_id
         }
+
+        if specimen_id is not None:
+            observation['specimen'] = {
+                'display': specimen_name,
+                'reference': 'Specimen/{}'.format(specimen_id)
+            }
 
         if sequence_id is not None:
             observation['extension'].append({
