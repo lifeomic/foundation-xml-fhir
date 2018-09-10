@@ -14,6 +14,15 @@ RUN mkdir -p /opt \
   && cd hgvs-${HGVS_VERSION} \
   && python setup.py install
 
+# vt ---------------------------------------------------------------------------
+# -> /usr/local/bin/vt
+RUN cd /opt \
+  && git clone --depth 1 https://github.com/atks/vt \
+  && cd /opt/vt \
+  && make \
+  && cp vt /usr/local/bin \
+  && rm -rf /opt/vt
+
 RUN mkdir -p /opt/app
 WORKDIR /opt/app
 COPY . /opt/app

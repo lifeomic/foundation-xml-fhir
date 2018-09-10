@@ -1,6 +1,8 @@
 from mock import patch
 from unittest import TestCase
 from src.convert import process
+import os.path
+import filecmp
 
 results_payload_dict = {
     'FinalReport': {
@@ -65,6 +67,7 @@ class ConvertTest(TestCase):
         self.args.fasta = 'genome.fasta'
         self.args.genes = 'genes.ref'
         self.args.file_url = None
+        self.args.vcf_out_file = None
 
     @patch("src.convert.parse_hgvs")
     def test_convert_with_subject(self, mock_parse_hgvs):
@@ -130,8 +133,6 @@ class ConvertTest(TestCase):
                            'valueCodeableConcept': {'coding': [{'code': '48002-0',
                                                                 'display': 'somatic',
                                                                 'system': 'http://loinc.org'}]}},
-                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
-                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}},
                           {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
                            'valueCodeableConcept': {'coding': [{'code': '48001-2',
                                                                 'display': '100',
@@ -151,7 +152,10 @@ class ConvertTest(TestCase):
                           {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsTranscriptID',
                            'valueCodeableConcept': {'coding': [{'code': '51958-7',
                                                                 'display': 'NM_001',
-                                                                'system': 'http://loinc.org'}]}}],
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}}
+                        ],
             'id': observation['id'],
             'meta': {'tag': [{'code': 'project1',
                               'system': 'http://lifeomic.com/fhir/dataset'},
@@ -199,8 +203,6 @@ class ConvertTest(TestCase):
                            'valueCodeableConcept': {'coding': [{'code': '48002-0',
                                                                 'display': 'somatic',
                                                                 'system': 'http://loinc.org'}]}},
-                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
-                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}},
                           {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
                            'valueCodeableConcept': {'coding': [{'code': '48001-2',
                                                                 'display': '58093932-58188144',
@@ -220,7 +222,10 @@ class ConvertTest(TestCase):
                           {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-copyNumber',
                            'valueCodeableConcept': {'coding': [{'code': 'copyNumber',
                                                                 'display': '44',
-                                                                'system': 'http://lifeomic.com'}]}}],
+                                                                'system': 'http://lifeomic.com'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}}
+                            ],
             'id': copy_number_observation['id'],
             'meta': {'tag': [{'code': 'project1',
                               'system': 'http://lifeomic.com/fhir/dataset'},
@@ -370,3 +375,18 @@ class ConvertTest(TestCase):
         observation = fhir_resources[4]
         self.assertEquals(observation['subject']['reference'],
                           'Patient/{}'.format(subject['id']))
+
+
+    @patch("src.convert.parse_hgvs")
+    def test_convert_with_vcf(self, mock_parse_hgvs):
+        mock_parse_hgvs.return_value = 'chr1', 100, 'A', 'T'
+        self.args.vcf_out_file = './tmp/subject.vcf'
+
+        fhir_resources = process(results_payload_dict, self.args)
+        # should just create report resource
+        self.assertEquals(len(fhir_resources), 3)
+        self.assertEquals(fhir_resources[0]['resourceType'], 'DiagnosticReport')
+        self.assertEquals(fhir_resources[1]['resourceType'], 'Observation')
+        self.assertEquals(fhir_resources[2]['resourceType'], 'Observation')
+        self.assertTrue(os.path.isfile('./unsorted.vcf'))
+        self.assertTrue(filecmp.cmp('./unsorted.vcf', './test/data/expected.vcf', shallow=False))

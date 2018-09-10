@@ -9,6 +9,7 @@ import os
 import gzip
 import shutil
 from utils import parse_hgvs
+from subprocess import call
 
 
 logging.basicConfig(level=logging.INFO,
@@ -121,12 +122,6 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
                     }
                 },
                 {
-                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
-                    'valueReference': {
-                        'reference': 'Sequence/{}'.format(sequence_id)
-                    }
-                },
-                {
                     'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
                     'valueCodeableConcept': {
                         'coding': [
@@ -189,6 +184,14 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
             ],
             'id': observation_id
         }
+
+        if sequence_id is not None:
+            observation['extension'].append({
+                'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                'valueReference': {
+                    'reference': 'Sequence/{}'.format(sequence_id)
+                }
+            })
         return observation
     return create
 
@@ -322,12 +325,6 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                     }
                 },
                 {
-                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
-                    'valueReference': {
-                        'reference': 'Sequence/{}'.format(sequence_id)
-                    }
-                },
-                {
                     'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
                     'valueCodeableConcept': {
                         'coding': [
@@ -390,6 +387,14 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
             ],
             'id': observation_id
         }
+
+        if sequence_id is not None:
+            observation['extension'].append({
+                'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                'valueReference': {
+                    'reference': 'Sequence/{}'.format(sequence_id)
+                }
+            })
         return observation
     return create
 
@@ -427,13 +432,15 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
         'subject': {
             'reference': 'Patient/{}'.format(subject_id)
         },
-        'specimen': [{
-            'display': specimen_name,
-            'reference': 'Specimen/{}'.format(specimen_id)
-        }],
         'result': [],
         'id': report_id
     }
+
+    if specimen_id is not None:
+        report['specimen'] = [{
+            'display': specimen_name,
+            'reference': 'Specimen/{}'.format(specimen_id)
+        }]
 
     if file_url is not None:
         report['presentedForm'] = [{
@@ -549,6 +556,57 @@ def create_specimen(results_payload_dict, project_id, subject_id):
     return specimen, specimen_id, specimen_name
 
 
+def write_vcf(results_payload_dict, fasta, genes, vcf_out_file):
+    specimen_name = results_payload_dict['variant-report']['samples']['sample']['@name']
+
+    with open('./unsorted.vcf', 'w+') as vcf_file:
+        vcf_file.write('##fileformat=VCFv4.2\n')
+        vcf_file.write('##source=foundation-xml-fhir\n')
+        vcf_file.write('##reference=file://{}\n'.format(fasta))
+        vcf_file.write('##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">\n')
+        vcf_file.write('##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">\n')
+        vcf_file.write('##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">\n')
+        vcf_file.write('##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">\n')
+        vcf_file.write('##FORMAT=<ID=AD,Number=.,Type=Integer,Description="Number of reads harboring allele (in order specified by GT)">\n')
+        vcf_file.write('##contig=<ID=chr1,length=248956422>\n')
+        vcf_file.write('##contig=<ID=chr2,length=242193529>\n')
+        vcf_file.write('##contig=<ID=chr3,length=198295559>\n')
+        vcf_file.write('##contig=<ID=chr4,length=190214555>\n')
+        vcf_file.write('##contig=<ID=chr5,length=181538259>\n')
+        vcf_file.write('##contig=<ID=chr6,length=170805979>\n')
+        vcf_file.write('##contig=<ID=chr7,length=159345973>\n')
+        vcf_file.write('##contig=<ID=chr8,length=145138636>\n')
+        vcf_file.write('##contig=<ID=chr9,length=138394717>\n')
+        vcf_file.write('##contig=<ID=chr10,length=133797422>\n')
+        vcf_file.write('##contig=<ID=chr11,length=135086622>\n')
+        vcf_file.write('##contig=<ID=chr12,length=133275309>\n')
+        vcf_file.write('##contig=<ID=chr13,length=114364328>\n')
+        vcf_file.write('##contig=<ID=chr14,length=107043718>\n')
+        vcf_file.write('##contig=<ID=chr15,length=101991189>\n')
+        vcf_file.write('##contig=<ID=chr16,length=90338345>\n')
+        vcf_file.write('##contig=<ID=chr17,length=83257441>\n')
+        vcf_file.write('##contig=<ID=chr18,length=80373285>\n')
+        vcf_file.write('##contig=<ID=chr19,length=58617616>\n')
+        vcf_file.write('##contig=<ID=chr20,length=64444167>\n')
+        vcf_file.write('##contig=<ID=chr21,length=46709983>\n')
+        vcf_file.write('##contig=<ID=chr22,length=50818468>\n')
+        vcf_file.write('##contig=<ID=chrX,length=156040895>\n')
+        vcf_file.write('##contig=<ID=chrY,length=57227415>\n')
+        vcf_file.write('##contig=<ID=chrM,length=16569>\n')
+        vcf_file.write('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t{}\n'.format(specimen_name))
+        for variant_dict in results_payload_dict['variant-report']['short-variants']['short-variant']:
+            cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
+            transcript = variant_dict['@transcript']
+            dp = variant_dict['@depth']
+            af = variant_dict['@allele-fraction']
+            gt = '1/1' if float(variant_dict['@allele-fraction']) > 0.9 else '0/1'
+            ad = int(round(int(dp) * float(af)))
+            variant_name = '{}:c.{}'.format(transcript, cds_effect)
+            chrom, offset, ref, alt = parse_hgvs(variant_name, fasta, genes)
+
+            vcf_file.write('{}\t{}\t.\t{}\t{}\t.\t.\tDP={};AF={}\tGT:DP:AD\t{}:{}:{}\n'.format(chrom, offset, ref, alt, dp, af, gt, dp, ad))
+
+
 def process(results_payload_dict, args):
     fhir_resources = []
     subject_id = args.subject_id
@@ -558,18 +616,29 @@ def process(results_payload_dict, args):
             results_payload_dict, args.project_id)
         fhir_resources.append(subject)
 
-    specimen, specimen_id, specimen_name = create_specimen(
-        results_payload_dict, args.project_id, subject_id)
-    sequence, sequence_id = create_sequence(
-        args.project_id, subject_id, specimen_id, specimen_name)
+    specimen_name = None
+    specimen_id = None
+    sequence_id = None
+
+    if (args.vcf_out_file is None):
+        specimen, specimen_id, specimen_name = create_specimen(
+            results_payload_dict, args.project_id, subject_id)
+        sequence, sequence_id = create_sequence(
+            args.project_id, subject_id, specimen_id, specimen_name)
+        fhir_resources.append(specimen)
+        fhir_resources.append(sequence)
+
     report = create_report(results_payload_dict, args.project_id,
                            subject_id, specimen_id, specimen_name, args.file_url)
 
     observations = []
     if ('short-variants' in results_payload_dict['variant-report'].keys() and
             'short-variant' in results_payload_dict['variant-report']['short-variants'].keys()):
+        if (args.vcf_out_file is not None):
+            write_vcf(results_payload_dict, args.fasta, args.genes, args.vcf_out_file)
+
         observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
-                                results_payload_dict['variant-report']['short-variants']['short-variant']))
+                            results_payload_dict['variant-report']['short-variants']['short-variant']))
 
     if ('copy-number-alterations' in results_payload_dict['variant-report'].keys() and
             'copy-number-alteration' in results_payload_dict['variant-report']['copy-number-alterations'].keys()):
@@ -578,11 +647,11 @@ def process(results_payload_dict, args):
 
     report['result'] = [
         {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
-    sequence['variant'] = [
-        {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
 
-    fhir_resources.append(specimen)
-    fhir_resources.append(sequence)
+    if (args.vcf_out_file is None):
+        sequence['variant'] = [
+            {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
+
     fhir_resources.append(report)
     fhir_resources = fhir_resources + observations
     logger.info('Created %d FHIR resources', len(fhir_resources))
@@ -609,6 +678,8 @@ def main():
                         required=False, help='The URL to the PDF Report in the PHC')
     parser.add_argument('-d, --pdf-output', dest='pdf_out_file',
                         required=False, help='Path to write the PDF file', default=None)
+    parser.add_argument('-v, --vcf-output', dest='vcf_out_file',
+                        required=False, help='Path to write the VCF file', default=None)
 
     args = parser.parse_args()
     logger.info('Converting XML to FHIR with args: %s',
@@ -631,6 +702,9 @@ def main():
         with open(args.pdf_out_file, "w") as pdf_file:
             pdf_file.write(pdf)
         logger.info('Saved PDF report to %s', args.pdf_out_file)
+
+    if args.vcf_out_file is not None:
+        call(['vt', 'sort', '-o', args.vcf_out_file, './unsorted.vcf'])
 
 
 if __name__ == '__main__':
