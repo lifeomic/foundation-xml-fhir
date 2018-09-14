@@ -560,9 +560,7 @@ def create_specimen(results_payload_dict, project_id, subject_id):
     return specimen, specimen_id, specimen_name
 
 
-def write_vcf(results_payload_dict, fasta, genes, vcf_out_file):
-    specimen_name = results_payload_dict['variant-report']['samples']['sample']['@name']
-
+def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
     with open('./unsorted.vcf', 'w+') as vcf_file:
         vcf_file.write('##fileformat=VCFv4.2\n')
         vcf_file.write('##source=foundation-xml-fhir\n')
@@ -598,7 +596,8 @@ def write_vcf(results_payload_dict, fasta, genes, vcf_out_file):
         vcf_file.write('##contig=<ID=chrY,length=57227415>\n')
         vcf_file.write('##contig=<ID=chrM,length=16569>\n')
         vcf_file.write('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t{}\n'.format(specimen_name))
-        for variant_dict in results_payload_dict['variant-report']['short-variants']['short-variant']:
+
+        for variant_dict in variants:
             cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
             transcript = variant_dict['@transcript']
             dp = variant_dict['@depth']
@@ -636,18 +635,33 @@ def process(results_payload_dict, args):
                            subject_id, specimen_id, specimen_name, args.file_url)
 
     observations = []
-    if ('short-variants' in results_payload_dict['variant-report'].keys() and
+    if ('short-variants' in results_payload_dict['variant-report'].keys()):
+
+        variants = []
+
+        if (results_payload_dict['variant-report']['short-variants'] is not None and
             'short-variant' in results_payload_dict['variant-report']['short-variants'].keys()):
+            variants_dict = results_payload_dict['variant-report']['short-variants']['short-variant']
+            variants = variants_dict if isinstance(variants_dict, list) else [variants_dict]
+
         if (args.vcf_out_file is not None):
-            write_vcf(results_payload_dict, args.fasta, args.genes, args.vcf_out_file)
+            specimen_name = results_payload_dict['variant-report']['samples']['sample']['@name']
+            write_vcf(variants, specimen_name, args.fasta, args.genes, args.vcf_out_file)
 
         observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
-                            results_payload_dict['variant-report']['short-variants']['short-variant']))
+                            variants))
 
-    if ('copy-number-alterations' in results_payload_dict['variant-report'].keys() and
+    if ('copy-number-alterations' in results_payload_dict['variant-report'].keys()):
+
+        cnvs = []
+
+        if (results_payload_dict['variant-report']['copy-number-alterations'] is not None and
             'copy-number-alteration' in results_payload_dict['variant-report']['copy-number-alterations'].keys()):
+            cnv_dict = results_payload_dict['variant-report']['copy-number-alterations']['copy-number-alteration']
+            cnvs = cnv_dict if isinstance(cnv_dict, list) else [cnv_dict]
+
         observations.extend(list(map(create_copy_number_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
-                                results_payload_dict['variant-report']['copy-number-alterations']['copy-number-alteration'])))
+                                cnvs)))
 
     report['result'] = [
         {'reference': 'Observation/{}'.format(x['id'])} for x in observations]

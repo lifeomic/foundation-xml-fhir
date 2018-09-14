@@ -390,3 +390,109 @@ class ConvertTest(TestCase):
         self.assertEquals(fhir_resources[2]['resourceType'], 'Observation')
         self.assertTrue(os.path.isfile('./unsorted.vcf'))
         self.assertTrue(filecmp.cmp('./unsorted.vcf', './test/data/expected.vcf', shallow=False))
+
+
+    @patch("src.convert.parse_hgvs")
+    def test_convert_with_no_variants(self, mock_parse_hgvs):
+        mock_parse_hgvs.return_value = 'chr1', 100, 'A', 'T'
+        self.args.vcf_out_file = './tmp/subject.vcf'
+
+        no_variants_payload_dict = {
+            'FinalReport': {
+                'PMI': {
+                    'LastName': 'doe',
+                    'FirstName': 'jane',
+                    'MRN': '1234',
+                    'Gender': 'Female',
+                    'DOB': '1970-01-01',
+                    'CollDate': '2000-01-01',
+                    'SubmittedDiagnosis': 'Cancer'
+                },
+                'Sample': {
+                    'TestType': 'Test 1'
+                }
+            },
+            'variant-report': {
+                'samples': {
+                    'sample': {
+                        '@name': 'sample1'
+                    }
+                },
+                'short-variants': None,
+                'copy-number-alterations': None
+            }
+        }
+
+
+        fhir_resources = process(no_variants_payload_dict, self.args)
+        # should just create report resource
+        self.assertEquals(len(fhir_resources), 1)
+        self.assertEquals(fhir_resources[0]['resourceType'], 'DiagnosticReport')
+        self.assertTrue(os.path.isfile('./unsorted.vcf'))
+        with open('./unsorted.vcf', 'r') as fin:
+            print fin.read()
+        self.assertTrue(filecmp.cmp('./unsorted.vcf', './test/data/expected_none.vcf', shallow=False))
+
+
+
+    @patch("src.convert.parse_hgvs")
+    def test_convert_with_one_variant(self, mock_parse_hgvs):
+        mock_parse_hgvs.return_value = 'chr1', 100, 'A', 'T'
+        self.args.vcf_out_file = './tmp/subject.vcf'
+
+        no_variants_payload_dict = {
+            'FinalReport': {
+                'PMI': {
+                    'LastName': 'doe',
+                    'FirstName': 'jane',
+                    'MRN': '1234',
+                    'Gender': 'Female',
+                    'DOB': '1970-01-01',
+                    'CollDate': '2000-01-01',
+                    'SubmittedDiagnosis': 'Cancer'
+                },
+                'Sample': {
+                    'TestType': 'Test 1'
+                }
+            },
+            'variant-report': {
+                'samples': {
+                    'sample': {
+                        '@name': 'sample1'
+                    }
+                },
+                'short-variants': {
+                    'short-variant':
+                        {
+                            '@gene': 'gene1',
+                            '@cds-effect': '229C&gt;A',
+                            '@functional-effect': 'missense',
+                            '@allele-fraction': 0.488,
+                            '@position': 'chr1:100',
+                            '@depth': 200,
+                            '@transcript': 'NM_001',
+                            '@status': 'known',
+                            '@protein-effect': 'R77S'
+                        }
+                },
+                'copy-number-alterations': {
+                    'copy-number-alteration':
+                        {
+                            '@gene': 'CDK4',
+                            '@position': 'chr12:58093932-58188144',
+                            '@copy-number': '44',
+                            '@status': 'known',
+                            '@type': 'amplification',
+                            '@number-of-exons': '5 of 5'
+                        }
+                }
+            }
+        }
+
+
+        fhir_resources = process(no_variants_payload_dict, self.args)
+        # should just create report resource
+        self.assertEquals(len(fhir_resources), 3)
+        self.assertEquals(fhir_resources[0]['resourceType'], 'DiagnosticReport')
+        self.assertTrue(os.path.isfile('./unsorted.vcf'))
+        self.assertTrue(filecmp.cmp('./unsorted.vcf', './test/data/expected.vcf', shallow=False))
