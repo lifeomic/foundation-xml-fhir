@@ -952,7 +952,11 @@
 					<dna-evidence sample="SA-1612348"/>
 				</copy-number-alteration>
 			</copy-number-alterations>
-			<rearrangements/>
+			<rearrangements>
+				<rearrangement equivocal="false" in-frame="unknown" other-gene="N/A" pos1="ch17:29557687-29887856" pos2="ch6:66426718-66427149" status="likely" supporting-read-pairs="83" target-gene="NF1" type="truncation">
+					<dna-evidence sample="SA-1612348"/>
+				</rearrangement>
+			</rearrangements>
 			<biomarkers>
 				<microsatellite-instability status="MSS"/>
 				<tumor-mutation-burden score="0.73" status="low" unit="mutations-per-megabase"/>

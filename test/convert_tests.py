@@ -51,6 +51,25 @@ results_payload_dict = {
                     '@number-of-exons': '5 of 5'
                 }
             ]
+        },
+        'rearrangements': {
+            'rearrangement': [
+                {
+                    '@status': 'known',
+                    '@target-gene': 'CDK4',
+                    '@type': 'truncation',
+                    '@pos1': 'ch17:29557687-29887856',
+                    '@pos2': 'ch6:66426718-66427149'
+                }
+            ]
+        },
+        'biomarkers': {
+            'microsatellite-instability': {
+                '@status': 'MSS'
+            },
+            'tumor-mutation-burden': {
+                '@status': 'low'
+            }
         }
     }
 }
@@ -90,7 +109,11 @@ class ConvertTest(TestCase):
                     {
                         'system': 'http://lifeomic.com/fhir/source',
                         'code': 'LifeOmic Task Service'
-                    }
+                    },
+                     {
+                    'system': 'http://lifeomic.com/fhir/variant-source',
+                    'code': 'Foundation'
+                }
                 ]
             },
             'identifier': [
@@ -107,6 +130,9 @@ class ConvertTest(TestCase):
         sequence = fhir_resources[1]
         observation = fhir_resources[3]
         copy_number_observation = fhir_resources[4]
+        rearrangement = fhir_resources[5]
+        microsatellite = fhir_resources[6]
+        tumor = fhir_resources[7]
 
         self.assertDictEqual(observation, {
             'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
@@ -162,6 +188,13 @@ class ConvertTest(TestCase):
                               {
                         'system': 'http://lifeomic.com/fhir/source',
                         'code': 'LifeOmic Task Service'
+                    }, {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'short'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
                     }]},
             'resourceType': 'Observation',
             'specimen': {'display': 'sample1',
@@ -213,7 +246,7 @@ class ConvertTest(TestCase):
                                                                 'system': 'http://loinc.org'}]}},
                           {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsCopyNumberEvent',
                            'valueCodeableConcept': {'coding': [{'code': 'SO:0001019',
-                                                                'display': 'amplification',
+                                                                'display': 'Amplification',
                                                                 'system': 'http://www.sequenceontology.org'}]}},
                           {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsAminoAcidChangeName',
                            'valueCodeableConcept': {'coding': [{'code': '48005-3',
@@ -232,6 +265,13 @@ class ConvertTest(TestCase):
                               {
                         'system': 'http://lifeomic.com/fhir/source',
                         'code': 'LifeOmic Task Service'
+                    }, {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'copy-number'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
                     }]},
             'resourceType': 'Observation',
             'specimen': {'display': 'sample1',
@@ -258,6 +298,149 @@ class ConvertTest(TestCase):
             }
         })
 
+        self.assertDictEqual(rearrangement, {
+            'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
+                           'valueCodeableConcept': {'coding': [{'code': '1100',
+                                                                'display': 'CDK4',
+                                                                'system': 'http://www.genenames.org'}]}},
+                         {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsDNASequenceVariantName',
+                           'valueCodeableConcept': {'coding': [{'code': '48004-6',
+                                                                'display': 'CDK4 Truncation',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass',
+                           'valueCodeableConcept': {'coding': [{'code': '48002-0',
+                                                                'display': 'somatic',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
+                           'valueCodeableConcept': {'coding': [{'code': '48001-2',
+                                                                'display': 'ch17:29557687-29887856 ch6:66426718-66427149',
+                                                                'system': 'http://loinc.org'}]}},
+                          {'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}}
+                            ],
+            'id': rearrangement['id'],
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                              {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    }, {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'rearrangement'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
+                    }]},
+            'resourceType': 'Observation',
+            'specimen': {'display': 'sample1',
+                         'reference': 'Specimen/{}'.format(specimen['id'])},
+            'status': 'final',
+            'subject': {'reference': 'Patient/subject1'},
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': 'known',
+                    'display': 'Foundation - Known'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            }
+        })
+
+        self.assertDictEqual(microsatellite, {
+            'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}}],
+            'id': microsatellite['id'],
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                              {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    }, {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'mirosatellite-instability'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
+                    }]},
+            'resourceType': 'Observation',
+            'specimen': {'display': 'sample1',
+                         'reference': 'Specimen/{}'.format(specimen['id'])},
+            'status': 'final',
+            'subject': {'reference': 'Patient/subject1'},
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': 'MSS',
+                    'display': 'Foundation - MSS'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            }
+        })
+
+        self.assertDictEqual(tumor, {
+            'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                           'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}}],
+            'id': tumor['id'],
+            'meta': {'tag': [{'code': 'project1',
+                              'system': 'http://lifeomic.com/fhir/dataset'},
+                              {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    }, {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'tumor-mutation-burden'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
+                    }]},
+            'resourceType': 'Observation',
+            'specimen': {'display': 'sample1',
+                         'reference': 'Specimen/{}'.format(specimen['id'])},
+            'status': 'final',
+            'subject': {'reference': 'Patient/subject1'},
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': 'Low',
+                    'display': 'Foundation - Low'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            }
+        })
+
         self.assertDictEqual(sequence, {
             'resourceType': 'Sequence',
             'type': 'dna',
@@ -266,7 +449,10 @@ class ConvertTest(TestCase):
                               {
                         'system': 'http://lifeomic.com/fhir/source',
                         'code': 'LifeOmic Task Service'
-                    }]},
+                    }, {
+                    'system': 'http://lifeomic.com/fhir/variant-source',
+                    'code': 'Foundation'
+                }]},
             'patient': {
                 'reference': 'Patient/subject1'
             },
@@ -284,6 +470,15 @@ class ConvertTest(TestCase):
                 },
                 {
                     'reference': 'Observation/{}'.format(copy_number_observation['id'])
+                },
+                {
+                    'reference': 'Observation/{}'.format(rearrangement['id'])
+                },
+                {
+                    'reference': 'Observation/{}'.format(microsatellite['id'])
+                },
+                {
+                    'reference': 'Observation/{}'.format(tumor['id'])
                 }
             ]
         })
@@ -296,7 +491,10 @@ class ConvertTest(TestCase):
                              {
                 'system': 'http://lifeomic.com/fhir/source',
                 'code': 'LifeOmic Task Service'
-            }]},
+            }, {
+                    'system': 'http://lifeomic.com/fhir/report-source',
+                    'code': 'Foundation'
+                }]},
             'extension': [
                 {
                     'url': 'http://hl7.org/fhir/StructureDefinition/DiagnosticReport-geneticsAssessedCondition',
@@ -323,6 +521,15 @@ class ConvertTest(TestCase):
                 },
                 {
                     'reference': 'Observation/{}'.format(copy_number_observation['id'])
+                },
+                {
+                    'reference': 'Observation/{}'.format(rearrangement['id'])
+                },
+                {
+                    'reference': 'Observation/{}'.format(microsatellite['id'])
+                },
+                {
+                    'reference': 'Observation/{}'.format(tumor['id'])
                 }
             ],
             'id': report['id']
@@ -334,7 +541,7 @@ class ConvertTest(TestCase):
         self.args.subject_id = None
 
         fhir_resources = process(results_payload_dict, self.args)
-        self.assertEquals(len(fhir_resources), 6)
+        self.assertEquals(len(fhir_resources), 9)
         subject = fhir_resources[0]
         self.assertDictEqual(subject, {
             'resourceType': 'Patient',
@@ -384,7 +591,7 @@ class ConvertTest(TestCase):
 
         fhir_resources = process(results_payload_dict, self.args)
         # should just create report resource
-        self.assertEquals(len(fhir_resources), 3)
+        self.assertEquals(len(fhir_resources), 6)
         self.assertEquals(fhir_resources[0]['resourceType'], 'DiagnosticReport')
         self.assertEquals(fhir_resources[1]['resourceType'], 'Observation')
         self.assertEquals(fhir_resources[2]['resourceType'], 'Observation')

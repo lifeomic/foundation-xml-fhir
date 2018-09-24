@@ -4,7 +4,7 @@ LABEL name "foundation-xml-fhir"
 LABEL version "1.0.0"
 LABEL maintainer "LifeOmic <development@lifeomic.com>"
 
-ENV HGVS_VERSION 1.0.4
+ENV HGVS_VERSION 1.0.5
 
 RUN mkdir -p /opt \
   && cd /opt \

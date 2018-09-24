@@ -37,6 +37,263 @@ def unzip(zipped_file):
     logger.info('Unzipping completed')
     return unzipped_file
 
+def create_microsatallite_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+    def create(variant_dict):
+        observation_id = str(uuid.uuid4())
+
+        observation = {
+            'resourceType': 'Observation',
+            'meta': {
+                'tag': [
+                    {
+                        'system': 'http://lifeomic.com/fhir/dataset',
+                        'code': project_id
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'mirosatellite-instability'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            },
+            'status': 'final',
+            'subject': {
+                'reference': 'Patient/{}'.format(subject_id)
+            },
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': variant_dict['@status'],
+                    'display': 'Foundation - {}'.format(variant_dict['@status'])
+                    }
+                ]
+            },
+            'extension': [
+            ],
+            'id': observation_id
+        }
+
+        if specimen_id is not None:
+            observation['specimen'] = {
+                'display': specimen_name,
+                'reference': 'Specimen/{}'.format(specimen_id)
+            }
+
+        if sequence_id is not None:
+            observation['extension'].append({
+                'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                'valueReference': {
+                    'reference': 'Sequence/{}'.format(sequence_id)
+                }
+            })
+        return observation
+    return create
+
+
+def create_tumor_mutation_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+    def create(variant_dict):
+        observation_id = str(uuid.uuid4())
+
+        observation = {
+            'resourceType': 'Observation',
+            'meta': {
+                'tag': [
+                    {
+                        'system': 'http://lifeomic.com/fhir/dataset',
+                        'code': project_id
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'tumor-mutation-burden'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            },
+            'status': 'final',
+            'subject': {
+                'reference': 'Patient/{}'.format(subject_id)
+            },
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': variant_dict['@status'].title(),
+                    'display': 'Foundation - {}'.format(variant_dict['@status'].title())
+                    }
+                ]
+            },
+            'extension': [
+            ],
+            'id': observation_id
+        }
+
+        if specimen_id is not None:
+            observation['specimen'] = {
+                'display': specimen_name,
+                'reference': 'Specimen/{}'.format(specimen_id)
+            }
+
+        if sequence_id is not None:
+            observation['extension'].append({
+                'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                'valueReference': {
+                    'reference': 'Sequence/{}'.format(sequence_id)
+                }
+            })
+        return observation
+    return create
+
+
+def create_rearrangement_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+    def create(variant_dict):
+        observation_id = str(uuid.uuid4())
+
+        observation = {
+            'resourceType': 'Observation',
+            'meta': {
+                'tag': [
+                    {
+                        'system': 'http://lifeomic.com/fhir/dataset',
+                        'code': project_id
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/source',
+                        'code': 'LifeOmic Task Service'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'rearrangement'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
+                    }
+                ]
+            },
+            'code': {
+                'coding': [
+                {
+                    'system': 'http://loinc.org',
+                    'code': '55233-1',
+                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                }
+                ]
+            },
+            'status': 'final',
+            'subject': {
+                'reference': 'Patient/{}'.format(subject_id)
+            },
+            'valueCodeableConcept': {
+                'coding': [
+                    {
+                    'system': 'http://foundationmedicine.com',
+                    'code': variant_dict['@status'],
+                    'display': 'Foundation - {}'.format(variant_dict['@status'].title())
+                    }
+                ]
+            },
+            'extension': [
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGene',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://www.genenames.org',
+                                'code': '1100',
+                                'display': variant_dict['@target-gene']
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsDNASequenceVariantName',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48004-6',
+                                'display': '{} {}'.format(variant_dict['@target-gene'], variant_dict['@type'].title())
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48002-0',
+                                'display': 'somatic'
+                            }
+                        ]
+                    }
+                },
+                {
+                    'url': 'http://lifeomic.com/fhir/StructureDefinition/observation-geneticsDNAPosition',
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': 'http://loinc.org',
+                                'code': '48001-2',
+                                'display': '{} {}'.format(variant_dict['@pos1'], variant_dict['@pos2'])
+                            }
+                        ]
+                    }
+                }
+            ],
+            'id': observation_id
+        }
+
+        if specimen_id is not None:
+            observation['specimen'] = {
+                'display': specimen_name,
+                'reference': 'Specimen/{}'.format(specimen_id)
+            }
+
+        if sequence_id is not None:
+            observation['extension'].append({
+                'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
+                'valueReference': {
+                    'reference': 'Sequence/{}'.format(sequence_id)
+                }
+            })
+        return observation
+    return create
+
 
 def create_copy_number_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
     def create(variant_dict):
@@ -55,6 +312,14 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
                     {
                         'system': 'http://lifeomic.com/fhir/source',
                         'code': 'LifeOmic Task Service'
+                    },
+                     {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'copy-number'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
                     }
                 ]
             },
@@ -148,7 +413,7 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
                             {
                                 'system': 'http://www.sequenceontology.org',
                                 'code': 'SO:0001019',
-                                'display': variant_dict['@type']
+                                'display': variant_dict['@type'].capitalize()
                             }
                         ]
                     }
@@ -224,6 +489,14 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
                     {
                         'system': 'http://lifeomic.com/fhir/source',
                         'code': 'LifeOmic Task Service'
+                    },
+                     {
+                        'system': 'http://lifeomic.com/fhir/variant-type',
+                        'code': 'short'
+                    },
+                    {
+                        'system': 'http://lifeomic.com/fhir/report-source',
+                        'code': 'Foundation'
                     }
                 ]
             },
@@ -417,6 +690,10 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
                 {
                     'system': 'http://lifeomic.com/fhir/source',
                     'code': 'LifeOmic Task Service'
+                },
+                {
+                    'system': 'http://lifeomic.com/fhir/report-source',
+                    'code': 'Foundation'
                 }
             ]
         },
@@ -510,6 +787,10 @@ def create_sequence(project_id, subject_id, specimen_id, specimen_name):
                 {
                     'system': 'http://lifeomic.com/fhir/source',
                     'code': 'LifeOmic Task Service'
+                },
+                {
+                    'system': 'http://lifeomic.com/fhir/variant-source',
+                    'code': 'Foundation'
                 }
             ]
         },
@@ -544,6 +825,10 @@ def create_specimen(results_payload_dict, project_id, subject_id):
                 {
                     'system': 'http://lifeomic.com/fhir/source',
                     'code': 'LifeOmic Task Service'
+                },
+                {
+                    'system': 'http://lifeomic.com/fhir/variant-source',
+                    'code': 'Foundation'
                 }
             ]
         },
@@ -662,6 +947,31 @@ def process(results_payload_dict, args):
 
         observations.extend(list(map(create_copy_number_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
                                 cnvs)))
+
+    if ('rearrangements' in results_payload_dict['variant-report'].keys()):
+
+        rearrangements = []
+
+        if (results_payload_dict['variant-report']['rearrangements'] is not None and
+            'rearrangement' in results_payload_dict['variant-report']['rearrangements'].keys()):
+            rearrangement_dict = results_payload_dict['variant-report']['rearrangements']['rearrangement']
+            rearrangements = rearrangement_dict if isinstance(rearrangement_dict, list) else [rearrangement_dict]
+
+        observations.extend(list(map(create_rearrangement_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
+                                rearrangements)))
+
+    if ('biomarkers' in results_payload_dict['variant-report'].keys()):
+
+        if (results_payload_dict['variant-report']['biomarkers'] is not None and
+            'microsatellite-instability' in results_payload_dict['variant-report']['biomarkers'].keys()):
+            microsatellite_dict = results_payload_dict['variant-report']['biomarkers']['microsatellite-instability']
+            observations.append(create_microsatallite_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id)(microsatellite_dict))
+
+        if (results_payload_dict['variant-report']['biomarkers'] is not None and
+            'tumor-mutation-burden' in results_payload_dict['variant-report']['biomarkers'].keys()):
+            tumor_dict = results_payload_dict['variant-report']['biomarkers']['tumor-mutation-burden']
+            observations.append(create_tumor_mutation_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id)(tumor_dict))
+
 
     report['result'] = [
         {'reference': 'Observation/{}'.format(x['id'])} for x in observations]
