@@ -233,7 +233,7 @@ def create_rearrangement_observation(project_id, subject_id, specimen_id, specim
                             {
                                 'system': 'http://www.genenames.org',
                                 'code': '1100',
-                                'display': variant_dict['@target-gene']
+                                'display': variant_dict['@targeted-gene']
                             }
                         ]
                     }
@@ -245,7 +245,7 @@ def create_rearrangement_observation(project_id, subject_id, specimen_id, specim
                             {
                                 'system': 'http://loinc.org',
                                 'code': '48004-6',
-                                'display': '{} {}'.format(variant_dict['@target-gene'], variant_dict['@type'].title())
+                                'display': '{} {}'.format(variant_dict['@targeted-gene'], variant_dict['@type'].title())
                             }
                         ]
                     }

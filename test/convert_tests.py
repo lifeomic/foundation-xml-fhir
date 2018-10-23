@@ -56,7 +56,7 @@ results_payload_dict = {
             'rearrangement': [
                 {
                     '@status': 'known',
-                    '@target-gene': 'CDK4',
+                    '@targeted-gene': 'CDK4',
                     '@type': 'truncation',
                     '@pos1': 'ch17:29557687-29887856',
                     '@pos2': 'ch6:66426718-66427149'
