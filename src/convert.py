@@ -892,7 +892,7 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
             variant_name = '{}:c.{}'.format(transcript, cds_effect)
             chrom, offset, ref, alt = parse_hgvs(variant_name, fasta, genes)
 
-            vcf_file.write('{}\t{}\t.\t{}\t{}\t.\t.\tDP={};AF={}\tGT:DP:AD\t{}:{}:{}\n'.format(chrom, offset, ref, alt, dp, af, gt, dp, ad))
+            vcf_file.write('{}\t{}\t.\t{}\t{}\t.\tPASS\tDP={};AF={}\tGT:DP:AD\t{}:{}:{}\n'.format(chrom, offset, ref, alt, dp, af, gt, dp, ad))
 
 
 def process(results_payload_dict, args):
