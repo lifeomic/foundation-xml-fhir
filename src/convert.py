@@ -810,8 +810,19 @@ def create_sequence(project_id, subject_id, specimen_id, specimen_name):
     return sequence, sequence_id
 
 
+def get_specimen_name(results_payload_dict):
+    specimen_name = None
+    if isinstance(results_payload_dict['variant-report']['samples']['sample'], list):
+        found = list(filter(lambda x:  x['@nucleic-acid-type'] == 'DNA', results_payload_dict['variant-report']['samples']['sample']))
+        if len(found) > 0:
+            specimen_name = found[0]['@name']
+    else:
+        specimen_name = results_payload_dict['variant-report']['samples']['sample']['@name']
+    return specimen_name
+
+
 def create_specimen(results_payload_dict, project_id, subject_id):
-    specimen_name = results_payload_dict['variant-report']['samples']['sample']['@name']
+    specimen_name = get_specimen_name(results_payload_dict)
     specimen_id = str(uuid.uuid4())
 
     specimen = {
@@ -930,7 +941,7 @@ def process(results_payload_dict, args):
             variants = variants_dict if isinstance(variants_dict, list) else [variants_dict]
 
         if (args.vcf_out_file is not None):
-            specimen_name = results_payload_dict['variant-report']['samples']['sample']['@name']
+            specimen_name = get_specimen_name(results_payload_dict)
             write_vcf(variants, specimen_name, args.fasta, args.genes, args.vcf_out_file)
 
         observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
