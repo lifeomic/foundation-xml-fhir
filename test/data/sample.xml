@@ -934,6 +934,58 @@
 				<short-variant allele-fraction="0.4800" cds-effect="1321C&gt;T" depth="456" equivocal="false" functional-effect="missense" gene="TLL2" percent-reads="48.00" position="chr10:98157006" protein-effect="L441F" status="unknown" strand="-" transcript="NM_012465">
 					<dna-evidence sample="SA-1612348"/>
 				</short-variant>
+				<short-variant allele-fraction="0.3630" cds-effect="4494-42_4499&gt;A" depth="146" equivocal="false" functional-effect="splice" gene="BCOR" percent-reads="36.30" position="chrX:39914761" protein-effect="splice site4494-42_4499&gt;A" status="likely" strand="-" transcript="NM_017745">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1960" cds-effect="594-2A&gt;C" depth="750" equivocal="false" functional-effect="splice" gene="BRCA1" percent-reads="19.60" position="chr17:41247941" protein-effect="splice site 594-2A&gt;C" status="likely" strand="-" transcript="NM_007294">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3636" cds-effect="205-8_205-2&gt;CCTCTGCCGAGGGCC" depth="363" equivocal="false" functional-effect="splice" gene="NF1" percent-reads="36.36" position="chr17:29486020" protein-effect="splice site 205-8_205-2&gt;CCTCTGCCGAGGGCC" status="likely" strand="+" transcript="NM_001042492">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1733" cds-effect="3836_3836+9&gt;GCCGTAGG" depth="658" equivocal="false" functional-effect="splice" gene="CREBBP" percent-reads="17.33" position="chr16:3799619" protein-effect="splice site 3836_3836+9&gt;GCCGTAGG" status="likely" strand="-" transcript="NM_004380">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1858" cds-effect="863_864insCAAG" depth="393" equivocal="false" functional-effect="frameshift" gene="NPM1" percent-reads="18.58" position="chr5:170837547" protein-effect="W288fs*12" status="known" strand="+" transcript="NM_002520">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1259" cds-effect="169_170insAGC" depth="397" equivocal="false" functional-effect="nonframeshift" gene="FBXO11" percent-reads="12.59" position="chr2:48132690" protein-effect="Q56_P57insQ" status="unknown" strand="-" transcript="NM_001190274">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1689" cds-effect="1140_1141insCTCTTGTACGG" depth="657" equivocal="false" functional-effect="frameshift" gene="WT1" percent-reads="16.89" position="chr11:32417911" protein-effect="S381fs*72" status="likely" strand="-" transcript="NM_024426">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.2452" cds-effect="1142C&gt;A" depth="571" equivocal="false" functional-effect="nonsense" gene="WT1" percent-reads="24.52" position="chr11:32417910" protein-effect="S381*" status="known" strand="-" transcript="NM_024426">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3915" cds-effect="2488_2490delGAG" depth="848" equivocal="false" functional-effect="nonframeshift" gene="NCOR2" percent-reads="39.15" position="chr12:124856884" protein-effect="E830del" status="unknown" strand="-" transcript="NM_006312">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.5140" cds-effect="2T&gt;C" depth="393" equivocal="false" functional-effect="nonsense" gene="WDR90" percent-reads="51.40" position="chr16:699418" protein-effect="M1T" status="unknown" strand="+" transcript="NM_145294">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1971" cds-effect="2488_2489delAG" depth="340" equivocal="false" functional-effect="frameshift" gene="BCOR" percent-reads="19.71" position="chrX:39932109" protein-effect="S830fs*6" status="likely" strand="-" transcript="NM_017745">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.8456" cds-effect="5060_5061delTG" depth="272" equivocal="false" functional-effect="frameshift" gene="BCORL1" percent-reads="84.56" position="chrX:129190034" protein-effect="V1687fs*57" status="likely" strand="+" transcript="NM_021946">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3508" cds-effect="1948_1962&gt;CCCCGGGCA" depth="382" equivocal="false" functional-effect="frameshift" gene="SUZ12" percent-reads="35.08" position="chr17:30325754" protein-effect="L652fs*7" status="likely" strand="+" transcript="NM_015355">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.0319" cds-effect="1813_1814insGCGGCTCCTCAGATAATGAGTACTTCTACGTTGATTTCAGAGAATATGAATATGATCTCAAATGGGAGT" depth="552" functional-effect="nonframeshift" gene="FLT3" percent-reads="3.19" position="chr13:28608310" protein-effect="E604_F605ins23" status="likely" strand="-" subclonal="true" transcript="NM_004119"/>
+				<short-variant allele-fraction="0.2907" cds-effect="10495C&gt;T" depth="1008" equivocal="false" functional-effect="nonsense" gene="MLL2" percent-reads="29.07" position="chr12:49428205" protein-effect="Q3499*" status="likely" strand="-" transcript="NM_003482">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4915" cds-effect="2672C&gt;G" depth="710" equivocal="false" functional-effect="nonsense" gene="ATM" percent-reads="49.15" position="chr11:108139170" protein-effect="S891*" status="likely" strand="+" transcript="NM_000051">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4318" cds-effect="1432C&gt;T" depth="968" equivocal="false" functional-effect="nonsense" gene="RAD21" percent-reads="43.18" position="chr8:117864225" protein-effect="R478*" status="unknown" strand="-" transcript="NM_006265">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1870" cds-effect="1008_1025CTCGGAGTGGTTTGAGAA&gt;GGGAGAT" depth="829" equivocal="false" functional-effect="frameshift" gene="MLL2" percent-reads="18.70" position="chr12:49446785" protein-effect="N336fs*24" status="likely" strand="-" transcript="NM_003482">
+					<dna-evidence sample="SA-2035286"/>
+				</short-variant>
 			</short-variants>
 			<copy-number-alterations>
 				<copy-number-alteration copy-number="44" equivocal="false" gene="CDK4" number-of-exons="7 of 7" position="chr12:58093932-58188144" ratio="11.63" status="known" type="amplification">

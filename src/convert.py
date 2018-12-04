@@ -8,7 +8,7 @@ import xmltodict
 import os
 import gzip
 import shutil
-from utils import parse_hgvs
+from utils import parse_hgvs, parse_splice
 from subprocess import call
 
 
@@ -467,11 +467,13 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
     def create(variant_dict):
         observation_id = str(uuid.uuid4())
         position_value = variant_dict['@position']
+        functional_effect = variant_dict['@functional-effect']
+        strand = variant_dict['@strand']
         region, position = position_value.split(':')
         transcript = variant_dict['@transcript']
         cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
         variant_name = '{}:c.{}'.format(transcript, cds_effect)
-        chrom, offset, ref, alt = parse_hgvs(variant_name, fasta, genes)
+        chrom, offset, ref, alt = parse_splice(cds_effect, position_value, strand, fasta) if functional_effect in ['splice', 'frameshift', 'nonframeshift'] else parse_hgvs(variant_name, fasta, genes)
         variantReadCount = int(round(int(variant_dict['@depth']) * float(variant_dict['@allele-fraction'])))
 
         observation = {
@@ -709,7 +711,7 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
         'code': {
             'text': results_payload_dict['FinalReport']['Sample']['TestType']
         },
-        'issued': results_payload_dict['FinalReport']['PMI']['CollDate'],
+        'issued': results_payload_dict['FinalReport']['PMI']['CollDate'] if 'CollDate' in results_payload_dict['FinalReport']['PMI'] else None,
         'subject': {
             'reference': 'Patient/{}'.format(subject_id)
         },
@@ -896,13 +898,16 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
         for variant_dict in variants:
             cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
             transcript = variant_dict['@transcript']
+            functional_effect = variant_dict['@functional-effect']
+            strand = variant_dict['@strand']
+            position_value = variant_dict['@position']
             dp = variant_dict['@depth']
             af = variant_dict['@allele-fraction']
             gt = '1/1' if float(variant_dict['@allele-fraction']) > 0.9 else '0/1'
             ad = int(round(int(dp) * float(af)))
             variant_name = '{}:c.{}'.format(transcript, cds_effect)
-            chrom, offset, ref, alt = parse_hgvs(variant_name, fasta, genes)
 
+            chrom, offset, ref, alt = parse_splice(cds_effect, position_value, strand, fasta) if functional_effect in ['splice', 'frameshift', 'nonframeshift'] else parse_hgvs(variant_name, fasta, genes)
             vcf_file.write('{}\t{}\t.\t{}\t{}\t.\tPASS\tDP={};AF={}\tGT:DP:AD\t{}:{}:{}\n'.format(chrom, offset, ref, alt, dp, af, gt, dp, ad))
 
 
@@ -1043,7 +1048,7 @@ def main():
         logger.info('Saved PDF report to %s', args.pdf_out_file)
 
     if args.vcf_out_file is not None:
-        call(['vt', 'sort', '-o', args.vcf_out_file, './unsorted.vcf'])
+        call(['/opt/app/sort.sh', args.vcf_out_file])
 
 
 if __name__ == '__main__':
