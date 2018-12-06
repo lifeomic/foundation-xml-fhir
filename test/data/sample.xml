@@ -1,4 +1,5 @@
-<rr:ResultsReport xmlns:rr="http://integration.foundationmedicine.com/reporting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://integration.foundationmedicine.com/reporting http://integration.foundationmedicine.com/reporting/ResultsReport.2.0.xsd">
+<rr:ResultsReport xmlns:rr="http://integration.foundationmedicine.com/reporting"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://integration.foundationmedicine.com/reporting http://integration.foundationmedicine.com/reporting/ResultsReport.2.0.xsd">
 	<rr:CustomerInformation>
 		<rr:ReferenceID>ABC456</rr:ReferenceID>
 		<rr:CSN>34125162</rr:CSN>
@@ -7,7 +8,8 @@
 		<rr:PhysicianId>1403</rr:PhysicianId>
 	</rr:CustomerInformation>
 	<rr:ResultsPayload>
-		<FinalReport xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" StagingId="130801" clinicalId="131416" xsi:schemaLocation="http://integration.foundationmedicine.com/reporting http://integration.foundationmedicine.com/reporting/ClinicalReport.1.1.xsd">
+		<FinalReport xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" StagingId="130801" clinicalId="131416" xsi:schemaLocation="http://integration.foundationmedicine.com/reporting http://integration.foundationmedicine.com/reporting/ClinicalReport.1.1.xsd">
 			<Application>
 				<ApplicationSettings>
 					<ApplicationSetting>
@@ -48,7 +50,6 @@
 				<MedFacilName>ABC Oncology</MedFacilName>
 				<MedFacilID>200313</MedFacilID>
 				<SpecSite>Blood</SpecSite>
-				<CollDate>2016-12-08</CollDate>
 				<ReceivedDate>2016-07-21</ReceivedDate>
 				<CountryOfOrigin>US</CountryOfOrigin>
 				<CopiedPhysician1/>
@@ -910,7 +911,8 @@
 			</AAC>
 			<SampleId>SMP37669.01</SampleId>
 		</FinalReport>
-		<variant-report xmlns="http://foundationmedicine.com/compbio/variant-report-external" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" disease="BONE" disease-ontology="PEDIATRIC Bone osteosarcoma" flowcell-analysis="10158" gender="male" pathology-diagnosis="Osteogenic sarcoma; Hx aggresive neoplasm suggestive osteosarcoma" percent-tumor-nuclei="60" pipeline-version="v2.7.0" purity-assessment="50" specimen="SMP37669.01" study="CLINICAL-HEME-COMPLETE" test-request="SMP37669" test-type="HemeComplete" tissue-of-origin="Bone" xsi:schemaLocation="http://foundationmedicine.com/compbio/variant-report-external http://www.foundationmedicine.com/compbio/variant-report-external-2.2.xsd">
+		<variant-report xmlns="http://foundationmedicine.com/compbio/variant-report-external"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" disease="BONE" disease-ontology="PEDIATRIC Bone osteosarcoma" flowcell-analysis="10158" gender="male" pathology-diagnosis="Osteogenic sarcoma; Hx aggresive neoplasm suggestive osteosarcoma" percent-tumor-nuclei="60" pipeline-version="v2.7.0" purity-assessment="50" specimen="SMP37669.01" study="CLINICAL-HEME-COMPLETE" test-request="SMP37669" test-type="HemeComplete" tissue-of-origin="Bone" xsi:schemaLocation="http://foundationmedicine.com/compbio/variant-report-external http://www.foundationmedicine.com/compbio/variant-report-external-2.2.xsd">
 			<samples>
 				<sample bait-set="D2" mean-exon-depth="527.76" name="SA-1612348" nucleic-acid-type="DNA"/>
 			</samples>
@@ -984,7 +986,40 @@
 					<dna-evidence sample="SA-1612348"/>
 				</short-variant>
 				<short-variant allele-fraction="0.1870" cds-effect="1008_1025CTCGGAGTGGTTTGAGAA&gt;GGGAGAT" depth="829" equivocal="false" functional-effect="frameshift" gene="MLL2" percent-reads="18.70" position="chr12:49446785" protein-effect="N336fs*24" status="likely" strand="-" transcript="NM_003482">
-					<dna-evidence sample="SA-2035286"/>
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.5000" cds-effect="6275A>T" depth="1110" equivocal="false" functional-effect="missense" gene="MLL3" percent-reads="50.00" position="chr7:151878670" protein-effect="D2092V" status="unknown" strand="-" transcript="NM_170606">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4766" cds-effect="3850G>C" depth="747" equivocal="false" functional-effect="missense" gene="FANCA" percent-reads="47.66" position="chr16:89806486" protein-effect="A1284P" status="unknown" strand="-" transcript="NM_000135">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3936" cds-effect="1148T>C" depth="813" equivocal="false" functional-effect="missense" gene="AXL" percent-reads="39.36" position="chr19:41745082" protein-effect="I383T" status="unknown" strand="+" transcript="NM_001699">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4828" cds-effect="3035A>G" depth="986" equivocal="false" functional-effect="missense" gene="KDM4C" percent-reads="48.28" position="chr9:7169931" protein-effect="N1012S" status="unknown" strand="+" transcript="NM_001146694">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4543" cds-effect="514C>T" depth="766" equivocal="false" functional-effect="missense" gene="ERBB4" percent-reads="45.43" position="chr2:212652792" protein-effect="P172S" status="unknown" strand="-" transcript="NM_005235">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3868" cds-effect="1799T>A" depth="711" equivocal="false" functional-effect="missense" gene="BRAF" percent-reads="38.68" position="chr7:140453136" protein-effect="V600E" status="known" strand="-" transcript="NM_004333">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.2797" cds-effect="83A>T" depth="783" equivocal="false" functional-effect="missense" gene="HIST1H3B" percent-reads="27.97" position="chr6:26032206" protein-effect="K28M" status="known" strand="-" transcript="NM_003537">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.7270" cds-effect="3533G>A" depth="586" equivocal="false" functional-effect="missense" gene="BCOR" percent-reads="72.70" position="chrX:39923175" protein-effect="S1178N" status="unknown" strand="-" transcript="NM_001123385">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.5837" cds-effect="2224G>C" depth="1141" equivocal="false" functional-effect="missense" gene="JARID2" percent-reads="58.37" position="chr6:15501416" protein-effect="E742Q" status="unknown" strand="+" transcript="NM_004973">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.5140" cds-effect="2T>C" depth="393" equivocal="false" functional-effect="nonsense" gene="WDR90" percent-reads="51.40" position="chr16:699418" protein-effect="M1T" status="unknown" strand="+" transcript="NM_145294">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4933" cds-effect="1946T>C" depth="902" equivocal="false" functional-effect="missense" gene="TSC2" percent-reads="49.33" position="chr16:2121617" protein-effect="M649T" status="unknown" strand="+" transcript="NM_000548">
+					<dna-evidence sample="SA-1612348"/>
 				</short-variant>
 			</short-variants>
 			<copy-number-alterations>

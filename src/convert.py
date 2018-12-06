@@ -7,6 +7,7 @@ import uuid
 import xmltodict
 import os
 import gzip
+import datetime
 import shutil
 from utils import parse_hgvs, parse_splice
 from subprocess import call
@@ -97,7 +98,7 @@ def create_microsatallite_observation(project_id, subject_id, specimen_id, speci
             }
 
         if sequence_id is not None:
-            observation['extension'].append({
+             observation['extension'].append({
                 'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
                 'valueReference': {
                     'reference': 'Sequence/{}'.format(sequence_id)
@@ -463,6 +464,16 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
     return create
 
 
+def hgvs_2_vcf (variant_name, genes, functional_effect, cds_effect, position_value, strand, fasta):
+    if functional_effect in ['splice', 'frameshift', 'nonframeshift']:
+        return parse_splice(cds_effect, position_value, strand, fasta)
+    else:
+        try:
+            return parse_hgvs(variant_name, fasta, genes)
+        except:
+            return parse_splice(cds_effect, position_value, strand, fasta)
+
+
 def create_observation(fasta, genes, project_id, subject_id, specimen_id, specimen_name, sequence_id):
     def create(variant_dict):
         observation_id = str(uuid.uuid4())
@@ -473,7 +484,7 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
         transcript = variant_dict['@transcript']
         cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
         variant_name = '{}:c.{}'.format(transcript, cds_effect)
-        chrom, offset, ref, alt = parse_splice(cds_effect, position_value, strand, fasta) if functional_effect in ['splice', 'frameshift', 'nonframeshift'] else parse_hgvs(variant_name, fasta, genes)
+        chrom, offset, ref, alt = hgvs_2_vcf(variant_name, genes, functional_effect, cds_effect, position_value, strand, fasta)
         variantReadCount = int(round(int(variant_dict['@depth']) * float(variant_dict['@allele-fraction'])))
 
         observation = {
@@ -711,7 +722,7 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
         'code': {
             'text': results_payload_dict['FinalReport']['Sample']['TestType']
         },
-        'issued': results_payload_dict['FinalReport']['PMI']['CollDate'] if 'CollDate' in results_payload_dict['FinalReport']['PMI'] else None,
+        'effectiveDateTime': results_payload_dict['FinalReport']['PMI']['CollDate'] if 'CollDate' in results_payload_dict['FinalReport']['PMI'] else datetime.datetime.now().isoformat(),
         'subject': {
             'reference': 'Patient/{}'.format(subject_id)
         },
@@ -907,7 +918,7 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
             ad = int(round(int(dp) * float(af)))
             variant_name = '{}:c.{}'.format(transcript, cds_effect)
 
-            chrom, offset, ref, alt = parse_splice(cds_effect, position_value, strand, fasta) if functional_effect in ['splice', 'frameshift', 'nonframeshift'] else parse_hgvs(variant_name, fasta, genes)
+            chrom, offset, ref, alt = hgvs_2_vcf(variant_name, genes, functional_effect, cds_effect, position_value, strand, fasta)
             vcf_file.write('{}\t{}\t.\t{}\t{}\t.\tPASS\tDP={};AF={}\tGT:DP:AD\t{}:{}:{}\n'.format(chrom, offset, ref, alt, dp, af, gt, dp, ad))
 
 
