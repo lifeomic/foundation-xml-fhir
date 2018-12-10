@@ -1054,6 +1054,12 @@
 				<short-variant allele-fraction="0.3800" cds-effect="376-1G>A" depth="574" equivocal="false" functional-effect="splice" gene="TP53" percent-reads="38.00" position="chr17:7578555" protein-effect="splice site 376-1G>A" status="likely" strand="-" transcript="NM_000546">
 				<dna-evidence sample="SA-1612348"/>
 				</short-variant>
+				<short-variant allele-fraction="0.3200" cds-effect="1204_1205ins42" depth="982" equivocal="false" functional-effect="nonframeshift" gene="ZNF703" percent-reads="32.00" position="chr8:37555623" protein-effect="H402_D403>PTHLGGSSCSTCSAHD" status="unknown" strand="+" transcript="NM_025069">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.2600" cds-effect="233_234ins42" depth="1014" equivocal="false" functional-effect="nonframeshift" gene="CDKN2A" percent-reads="26.00" position="chr9:21971126" protein-effect="L78_T79ins14" status="unknown" strand="-" transcript="NM_000077">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
 			</short-variants>
 			<copy-number-alterations>
 				<copy-number-alteration copy-number="44" equivocal="false" gene="CDK4" number-of-exons="7 of 7" position="chr12:58093932-58188144" ratio="11.63" status="known" type="amplification">

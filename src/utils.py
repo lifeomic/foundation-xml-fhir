@@ -113,8 +113,9 @@ def parse_splice(cdsEffect, position, strand, fasta):
         if mytype == 'ins':
             if mylen != 2:
                 raise ValueError('ERROR: insertion but range is not 1 [{}]'.format(cdsEffect))
-            elif not re.match(r'^[A-Za-z]+$', mylist[1]):
-                raise ValueError('ERROR: insertion but no actual nucleotide sequence given {}'.format(cdsEffect))
+            elif not re.match(r'^[A-Za-z]+', mylist[1]):
+                ref = getSequence(genome, chr, startPos, startPos)
+                mylist[1] = ref + ('N' * int(mylist[1]))
             else:
                 ref = getSequence(genome, chr, startPos, startPos)
                 mylist[1] = ref + mylist[1]
