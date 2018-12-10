@@ -1021,6 +1021,39 @@
 				<short-variant allele-fraction="0.4933" cds-effect="1946T>C" depth="902" equivocal="false" functional-effect="missense" gene="TSC2" percent-reads="49.33" position="chr16:2121617" protein-effect="M649T" status="unknown" strand="+" transcript="NM_000548">
 					<dna-evidence sample="SA-1612348"/>
 				</short-variant>
+				<short-variant allele-fraction="0.2802" cds-effect="388delG" depth="696" equivocal="false" functional-effect="frameshift" gene="STK11" percent-reads="28.02" position="chr19:1219335" protein-effect="E130fs*31" status="likely" strand="+" transcript="NM_000455">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1554" cds-effect="11815_11895del81" depth="341" equivocal="false" functional-effect="nonframeshift" gene="MLL2" percent-reads="15.54" position="chr12:49426592" protein-effect="Q3939_Q3965del" status="unknown" strand="-" transcript="NM_003482">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1800" cds-effect="1491-1delG" depth="697" equivocal="false" functional-effect="splice" gene="KDM5A" percent-reads="18.00" position="chr12:442815" protein-effect="splice site 1491-1delG" status="unknown" strand="-" transcript="NM_001042603">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3361" cds-effect="376-30_384del39" depth="592" equivocal="false" functional-effect="splice" gene="TP53" percent-reads="33.61" position="chr17:7578545" protein-effect="splice site 376-30_384del39" status="likely" strand="-" transcript="NM_000546">
+					<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.0038" cds-effect="1355_*339del479" depth="30626" equivocal="true" functional-effect="frameshift" gene="MDM2" percent-reads="0.38" position="chr12:69233489" protein-effect="K452fs*55" status="unknown" strand="+" transcript="NM_002392">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.0069" cds-effect="672+2_672+37del36" depth="2747" equivocal="false" functional-effect="splice" gene="TP53" percent-reads="0.69" position="chr17:7578139" protein-effect="splice site 672+2_672+37del36" status="likely" strand="-" transcript="NM_000546">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.0774" cds-effect="367_375+15del24" depth="6650" equivocal="false" functional-effect="splice" gene="TP53" percent-reads="7.74" position="chr17:7579296" protein-effect="splice site 367_375+15del24" status="likely" strand="-" transcript="NM_000546">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.4160" cds-effect="390_426del37" depth="5019" equivocal="false" functional-effect="frameshift" gene="TP53" percent-reads="41.60" position="chr17:7578503" protein-effect="N131fs*27" status="likely" strand="-" transcript="NM_000546">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.5687" cds-effect="2326-4_2331delCTAGCCCCCT" depth="1055" equivocal="false" functional-effect="splice" gene="RB1" percent-reads="56.87" position="chr13:49039336" protein-effect="splice site 2326-4_2331delCTAGCCCCCT" status="likely" strand="+" transcript="NM_000321">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.1857" cds-effect="1640_1686+98del145" depth="603" equivocal="false" functional-effect="splice" gene="MAP3K1" percent-reads="18.57" position="chr5:56168785" protein-effect="splice site 1640_1686+98del145" status="likely" strand="+" transcript="NM_005921">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
+				<short-variant allele-fraction="0.3800" cds-effect="376-1G>A" depth="574" equivocal="false" functional-effect="splice" gene="TP53" percent-reads="38.00" position="chr17:7578555" protein-effect="splice site 376-1G>A" status="likely" strand="-" transcript="NM_000546">
+				<dna-evidence sample="SA-1612348"/>
+				</short-variant>
 			</short-variants>
 			<copy-number-alterations>
 				<copy-number-alteration copy-number="44" equivocal="false" gene="CDK4" number-of-exons="7 of 7" position="chr12:58093932-58188144" ratio="11.63" status="known" type="amplification">
