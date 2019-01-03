@@ -691,6 +691,11 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
 
 def create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, file_url=None):
     report_id = str(uuid.uuid4())
+    effective_date = datetime.datetime.now().isoformat()
+    if 'CollDate' in results_payload_dict['FinalReport']['PMI'] and '#text' in results_payload_dict['FinalReport']['PMI']['CollDate']:
+        effective_date = results_payload_dict['FinalReport']['PMI']['CollDate']['#text']
+    elif 'CollDate' in results_payload_dict['FinalReport']['PMI']:
+        effective_date = results_payload_dict['FinalReport']['PMI']['CollDate']
 
     report = {
         'resourceType': 'DiagnosticReport',
@@ -722,7 +727,7 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
         'code': {
             'text': results_payload_dict['FinalReport']['Sample']['TestType']
         },
-        'effectiveDateTime': results_payload_dict['FinalReport']['PMI']['CollDate'] if 'CollDate' in results_payload_dict['FinalReport']['PMI'] else datetime.datetime.now().isoformat(),
+        'effectiveDateTime': effective_date,
         'subject': {
             'reference': 'Patient/{}'.format(subject_id)
         },
