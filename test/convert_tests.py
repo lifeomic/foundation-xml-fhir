@@ -36,7 +36,8 @@ results_payload_dict = {
                     '@depth': 200,
                     '@transcript': 'NM_001',
                     '@status': 'known',
-                    '@protein-effect': 'R77S'
+                    '@protein-effect': 'R77S',
+                    '@strand': '-'
                 }
             ]
         },
@@ -68,7 +69,9 @@ results_payload_dict = {
                 '@status': 'MSS'
             },
             'tumor-mutation-burden': {
-                '@status': 'low'
+                '@status': 'low',
+                '@score': '0.73',
+                '@unit': 'mutations-per-megabase'
             }
         }
     }
@@ -361,6 +364,7 @@ class ConvertTest(TestCase):
             'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
                            'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}}],
             'id': microsatellite['id'],
+            'effectiveDateTime': '2000-01-01',
             'meta': {'tag': [{'code': 'project1',
                               'system': 'http://lifeomic.com/fhir/dataset'},
                               {
@@ -368,7 +372,7 @@ class ConvertTest(TestCase):
                         'code': 'LifeOmic Task Service'
                     }, {
                         'system': 'http://lifeomic.com/fhir/variant-type',
-                        'code': 'mirosatellite-instability'
+                        'code': 'microsatellite-instability'
                     },
                     {
                         'system': 'http://lifeomic.com/fhir/report-source',
@@ -382,27 +386,28 @@ class ConvertTest(TestCase):
             'valueCodeableConcept': {
                 'coding': [
                     {
-                    'system': 'http://foundationmedicine.com',
-                    'code': 'MSS',
-                    'display': 'Foundation - MSS'
+                    'system': 'http://loinc.org',
+                    'code': 'LA14122-8',
+                    'display': 'Stable'
                     }
                 ]
             },
             'code': {
                 'coding': [
-                {
-                    'system': 'http://loinc.org',
-                    'code': '55233-1',
-                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
-                }
+                    {
+                        'system': 'http://loinc.org',
+                        'code': '81695-9',
+                        'display': 'Microsatellite instability [Interpretation] in Cancer specimen Qualitative.'
+                    }
                 ]
-            }
+            },
         })
 
         self.assertDictEqual(tumor, {
             'extension': [{'url': 'http://hl7.org/fhir/StructureDefinition/observation-geneticsSequence',
                            'valueReference': {'reference': 'Sequence/{}'.format(sequence['id'])}}],
             'id': tumor['id'],
+            'effectiveDateTime': '2000-01-01',
             'meta': {'tag': [{'code': 'project1',
                               'system': 'http://lifeomic.com/fhir/dataset'},
                               {
@@ -421,24 +426,52 @@ class ConvertTest(TestCase):
                          'reference': 'Specimen/{}'.format(specimen['id'])},
             'status': 'final',
             'subject': {'reference': 'Patient/subject1'},
-            'valueCodeableConcept': {
-                'coding': [
-                    {
-                    'system': 'http://foundationmedicine.com',
-                    'code': 'Low',
-                    'display': 'Foundation - Low'
-                    }
-                ]
-            },
             'code': {
                 'coding': [
                 {
-                    'system': 'http://loinc.org',
-                    'code': '55233-1',
-                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                    'system': 'http://lifeomic.com/fhir/biomarker',
+                    'code': 'TMB',
+                    'display': 'Tumor Mutation Burden'
                 }
                 ]
-            }
+            },
+            'component': [
+                {
+                    'code': {
+                        'coding': [
+                            {
+                                'system': "http://lifeomic.com/fhir/biomarker",
+                                'code': 'TMB Status',
+                                'display': 'TMB Status'
+                            }
+                        ]
+                    },
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': "http://lifeomic.com/fhir/biomarker",
+                                'code': 'TMB-L',
+                                'display': 'low'
+                            }
+                        ]
+                    }
+                },
+                {
+                    'code': {
+                        'coding': [
+                            {
+                                'system': "http://lifeomic.com/fhir/biomarker",
+                                'code': "TMB Score",
+                                'display': "TMB Score"
+                            }
+                        ]
+                    },
+                    'valueQuantity': {
+                        'value': '0.73',
+                        'unit': 'mutations-per-megabase'
+                    }
+                }
+            ]
         })
 
         self.assertDictEqual(sequence, {
@@ -507,7 +540,7 @@ class ConvertTest(TestCase):
             'code': {
                 'text': 'Test 1'
             },
-            'issued': '2000-01-01',
+            'effectiveDateTime': '2000-01-01',
             'subject': {
                 'reference': 'Patient/subject1'
             },
@@ -679,7 +712,8 @@ class ConvertTest(TestCase):
                             '@depth': 200,
                             '@transcript': 'NM_001',
                             '@status': 'known',
-                            '@protein-effect': 'R77S'
+                            '@protein-effect': 'R77S',
+                            '@strand': '-'
                         }
                 },
                 'copy-number-alterations': {

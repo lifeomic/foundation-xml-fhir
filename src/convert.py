@@ -38,12 +38,28 @@ def unzip(zipped_file):
     logger.info('Unzipping completed')
     return unzipped_file
 
-def create_microsatallite_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+
+def create_microsatallite_observation(project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id):
     def create(variant_dict):
         observation_id = str(uuid.uuid4())
 
+        values = {
+            'MSI-H': 'MSI-H',
+            'MSI-L': 'MSI-L',
+            'MSS': 'Stable',
+            'unknown': 'unknown'
+        }
+
+        codes = {
+            'MSI-H': 'LA26203-2',
+            'MSI-L': 'LA26202-4',
+            'MSS': 'LA14122-8',
+            'unknown': 'unknown'
+        }
+
         observation = {
             'resourceType': 'Observation',
+            'effectiveDateTime': effective_date,
             'meta': {
                 'tag': [
                     {
@@ -56,7 +72,7 @@ def create_microsatallite_observation(project_id, subject_id, specimen_id, speci
                     },
                     {
                         'system': 'http://lifeomic.com/fhir/variant-type',
-                        'code': 'mirosatellite-instability'
+                        'code': 'microsatellite-instability'
                     },
                     {
                         'system': 'http://lifeomic.com/fhir/report-source',
@@ -66,11 +82,11 @@ def create_microsatallite_observation(project_id, subject_id, specimen_id, speci
             },
             'code': {
                 'coding': [
-                {
-                    'system': 'http://loinc.org',
-                    'code': '55233-1',
-                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
-                }
+                    {
+                        'system': 'http://loinc.org',
+                        'code': '81695-9',
+                        'display': 'Microsatellite instability [Interpretation] in Cancer specimen Qualitative.'
+                    }
                 ]
             },
             'status': 'final',
@@ -80,13 +96,14 @@ def create_microsatallite_observation(project_id, subject_id, specimen_id, speci
             'valueCodeableConcept': {
                 'coding': [
                     {
-                    'system': 'http://foundationmedicine.com',
-                    'code': variant_dict['@status'],
-                    'display': 'Foundation - {}'.format(variant_dict['@status'])
+                        'system': 'http://loinc.org',
+                        'code': codes.get(variant_dict['@status'], 'unknown'),
+                        'display': values.get(variant_dict['@status'], 'unknown')
                     }
                 ]
             },
             'extension': [
+
             ],
             'id': observation_id
         }
@@ -108,12 +125,20 @@ def create_microsatallite_observation(project_id, subject_id, specimen_id, speci
     return create
 
 
-def create_tumor_mutation_observation(project_id, subject_id, specimen_id, specimen_name, sequence_id):
+def create_tumor_mutation_observation(project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id):
     def create(variant_dict):
         observation_id = str(uuid.uuid4())
 
+        codes = {
+            'high': 'TMB-H',
+            'intermediate': 'TMB-I',
+            'low': 'TMB-L',
+            'unknown': 'unknown'
+        }
+
         observation = {
             'resourceType': 'Observation',
+            'effectiveDateTime': effective_date,
             'meta': {
                 'tag': [
                     {
@@ -137,9 +162,9 @@ def create_tumor_mutation_observation(project_id, subject_id, specimen_id, speci
             'code': {
                 'coding': [
                 {
-                    'system': 'http://loinc.org',
-                    'code': '55233-1',
-                    'display': 'Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'
+                    'system': 'http://lifeomic.com/fhir/biomarker',
+                    'code': 'TMB',
+                    'display': 'Tumor Mutation Burden'
                 }
                 ]
             },
@@ -147,16 +172,45 @@ def create_tumor_mutation_observation(project_id, subject_id, specimen_id, speci
             'subject': {
                 'reference': 'Patient/{}'.format(subject_id)
             },
-            'valueCodeableConcept': {
-                'coding': [
-                    {
-                    'system': 'http://foundationmedicine.com',
-                    'code': variant_dict['@status'].title(),
-                    'display': 'Foundation - {}'.format(variant_dict['@status'].title())
+             'extension': [
+
+            ],
+            'component': [
+                {
+                    'code': {
+                        'coding': [
+                            {
+                                'system': "http://lifeomic.com/fhir/biomarker",
+                                'code': 'TMB Status',
+                                'display': 'TMB Status'
+                            }
+                        ]
+                    },
+                    'valueCodeableConcept': {
+                        'coding': [
+                            {
+                                'system': "http://lifeomic.com/fhir/biomarker",
+                                'code': codes.get(variant_dict['@status'], 'unknown'),
+                                'display': variant_dict['@status']
+                            }
+                        ]
                     }
-                ]
-            },
-            'extension': [
+                },
+                {
+                    'code': {
+                        'coding': [
+                            {
+                                'system': "http://lifeomic.com/fhir/biomarker",
+                                'code': "TMB Score",
+                                'display': "TMB Score"
+                            }
+                        ]
+                    },
+                    'valueQuantity': {
+                        'value': variant_dict['@score'],
+                        'unit': variant_dict['@unit']
+                    }
+                }
             ],
             'id': observation_id
         }
@@ -689,13 +743,8 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
     return create
 
 
-def create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, file_url=None):
+def create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, effective_date, file_url=None):
     report_id = str(uuid.uuid4())
-    effective_date = datetime.datetime.now().isoformat()
-    if 'CollDate' in results_payload_dict['FinalReport']['PMI'] and '#text' in results_payload_dict['FinalReport']['PMI']['CollDate']:
-        effective_date = results_payload_dict['FinalReport']['PMI']['CollDate']['#text']
-    elif 'CollDate' in results_payload_dict['FinalReport']['PMI']:
-        effective_date = results_payload_dict['FinalReport']['PMI']['CollDate']
 
     report = {
         'resourceType': 'DiagnosticReport',
@@ -881,6 +930,7 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
         vcf_file.write('##reference=file://{}\n'.format(fasta))
         vcf_file.write('##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">\n')
         vcf_file.write('##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">\n')
+        vcf_file.write('##INFO=<ID=VENDSIG,Number=1,Type=String,Description="Vendor Significance">\n')
         vcf_file.write('##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">\n')
         vcf_file.write('##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">\n')
         vcf_file.write('##FORMAT=<ID=AD,Number=.,Type=Integer,Description="Number of reads harboring allele (in order specified by GT)">\n')
@@ -911,7 +961,15 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
         vcf_file.write('##contig=<ID=chrM,length=16569>\n')
         vcf_file.write('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t{}\n'.format(specimen_name))
 
+        status = {
+            'known': 'Pathogenic',
+            'likley': 'Likely pathogenic',
+            'unknown': 'Uncertain significance',
+            'ambiguous': 'other'
+        }
+
         for variant_dict in variants:
+            vendsig = status.get(variant_dict.get('@status', 'unknown'))
             cds_effect = variant_dict['@cds-effect'].replace('&gt;', '>')
             transcript = variant_dict['@transcript']
             functional_effect = variant_dict['@functional-effect']
@@ -924,7 +982,7 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
             variant_name = '{}:c.{}'.format(transcript, cds_effect)
 
             chrom, offset, ref, alt = hgvs_2_vcf(variant_name, genes, functional_effect, cds_effect, position_value, strand, fasta)
-            vcf_file.write('{}\t{}\t.\t{}\t{}\t.\tPASS\tDP={};AF={}\tGT:DP:AD\t{}:{}:{}\n'.format(chrom, offset, ref, alt, dp, af, gt, dp, ad))
+            vcf_file.write('{}\t{}\t.\t{}\t{}\t.\tPASS\tDP={};AF={};VENDSIG={}\tGT:DP:AD\t{}:{}:{}\n'.format(chrom, offset, ref, alt, dp, af, vendsig, gt, dp, ad))
 
 
 def process(results_payload_dict, args):
@@ -948,8 +1006,14 @@ def process(results_payload_dict, args):
         fhir_resources.append(specimen)
         fhir_resources.append(sequence)
 
+    effective_date = datetime.datetime.now().isoformat()
+    if 'CollDate' in results_payload_dict['FinalReport']['PMI'] and '#text' in results_payload_dict['FinalReport']['PMI']['CollDate']:
+        effective_date = results_payload_dict['FinalReport']['PMI']['CollDate']['#text']
+    elif 'CollDate' in results_payload_dict['FinalReport']['PMI']:
+        effective_date = results_payload_dict['FinalReport']['PMI']['CollDate']
+
     report = create_report(results_payload_dict, args.project_id,
-                           subject_id, specimen_id, specimen_name, args.file_url)
+                           subject_id, specimen_id, specimen_name, effective_date, args.file_url)
 
     observations = []
     if ('short-variants' in results_payload_dict['variant-report'].keys()):
@@ -991,18 +1055,17 @@ def process(results_payload_dict, args):
 
         observations.extend(list(map(create_rearrangement_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
                                 rearrangements)))
-
     if ('biomarkers' in results_payload_dict['variant-report'].keys()):
 
         if (results_payload_dict['variant-report']['biomarkers'] is not None and
             'microsatellite-instability' in results_payload_dict['variant-report']['biomarkers'].keys()):
             microsatellite_dict = results_payload_dict['variant-report']['biomarkers']['microsatellite-instability']
-            observations.append(create_microsatallite_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id)(microsatellite_dict))
+            observations.append(create_microsatallite_observation(args.project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id)(microsatellite_dict))
 
         if (results_payload_dict['variant-report']['biomarkers'] is not None and
             'tumor-mutation-burden' in results_payload_dict['variant-report']['biomarkers'].keys()):
             tumor_dict = results_payload_dict['variant-report']['biomarkers']['tumor-mutation-burden']
-            observations.append(create_tumor_mutation_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id)(tumor_dict))
+            observations.append(create_tumor_mutation_observation(args.project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id)(tumor_dict))
 
 
     report['result'] = [
