@@ -3,6 +3,7 @@
 ##reference=file://genome.fasta
 ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
 ##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+##INFO=<ID=VENDSIG,Number=1,Type=String,Description="Vendor Significance">
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
 ##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">
 ##FORMAT=<ID=AD,Number=.,Type=Integer,Description="Number of reads harboring allele (in order specified by GT)">
@@ -32,4 +33,4 @@
 ##contig=<ID=chrY,length=57227415>
 ##contig=<ID=chrM,length=16569>
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	sample1
-chr1	100	.	A	T	.	PASS	DP=200;AF=0.488	GT:DP:AD	0/1:200:98
+chr1	100	.	A	T	.	PASS	DP=200;AF=0.488;VENDSIG=Pathogenic	GT:DP:AD	0/1:200:98
