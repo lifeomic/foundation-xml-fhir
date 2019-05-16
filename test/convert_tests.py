@@ -467,7 +467,7 @@ class ConvertTest(TestCase):
                         ]
                     },
                     'valueQuantity': {
-                        'value': '0.73',
+                        'value': 0.73,
                         'unit': 'mutations-per-megabase'
                     }
                 }

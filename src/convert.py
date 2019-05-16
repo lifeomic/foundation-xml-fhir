@@ -207,7 +207,7 @@ def create_tumor_mutation_observation(project_id, subject_id, specimen_id, effec
                         ]
                     },
                     'valueQuantity': {
-                        'value': variant_dict['@score'],
+                        'value': float(variant_dict['@score']),
                         'unit': variant_dict['@unit']
                     }
                 }
