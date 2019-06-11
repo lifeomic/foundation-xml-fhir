@@ -978,7 +978,9 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
             dp = variant_dict['@depth']
             af = variant_dict['@allele-fraction']
             gt = '1/1' if float(variant_dict['@allele-fraction']) > 0.9 else '0/1'
-            ad = int(round(int(dp) * float(af)))
+            alt = int(round(int(dp) * float(af)))
+            ref = dp - alt
+            ad = '{},{}'.format(ref, alt)
             variant_name = '{}:c.{}'.format(transcript, cds_effect)
 
             chrom, offset, ref, alt = hgvs_2_vcf(variant_name, genes, functional_effect, cds_effect, position_value, strand, fasta)
