@@ -90,6 +90,7 @@ class ConvertTest(TestCase):
         self.args.genes = 'genes.ref'
         self.args.file_url = None
         self.args.vcf_out_file = None
+        self.args.sequence_id = 'sequence_id'
 
     @patch("src.convert.parse_hgvs")
     def test_convert_with_subject(self, mock_parse_hgvs):
@@ -534,6 +535,9 @@ class ConvertTest(TestCase):
                     'valueReference': {
                         'reference': 'Cancer'
                     }
+                },
+                {'url': 'http://lifeomic.com/fhir/StructureDefinition/sequence-id',
+                 'valueString': 'sequence_id'
                 }
             ],
             'status': 'final',
@@ -669,8 +673,6 @@ class ConvertTest(TestCase):
         self.assertEquals(len(fhir_resources), 1)
         self.assertEquals(fhir_resources[0]['resourceType'], 'DiagnosticReport')
         self.assertTrue(os.path.isfile('./unsorted.vcf'))
-        with open('./unsorted.vcf', 'r') as fin:
-            print fin.read()
         self.assertTrue(filecmp.cmp('./unsorted.vcf', './test/data/expected_none.vcf', shallow=False))
 
 

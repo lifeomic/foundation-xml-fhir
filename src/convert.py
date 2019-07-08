@@ -743,7 +743,8 @@ def create_observation(fasta, genes, project_id, subject_id, specimen_id, specim
     return create
 
 
-def create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, effective_date, file_url=None):
+def create_report(results_payload_dict, project_id, subject_id, specimen_id, specimen_name, effective_date,
+                  file_url=None, sequence_id=None):
     report_id = str(uuid.uuid4())
 
     report = {
@@ -796,6 +797,12 @@ def create_report(results_payload_dict, project_id, subject_id, specimen_id, spe
             'contentType': 'application/pdf',
             'title': results_payload_dict['FinalReport']['Sample']['TestType']
         }]
+
+    if sequence_id is not None:
+        report['extension'].append({
+            'url': 'http://lifeomic.com/fhir/StructureDefinition/sequence-id',
+            'valueString': sequence_id
+        })
 
     return report
 
@@ -979,7 +986,7 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
             af = variant_dict['@allele-fraction']
             gt = '1/1' if float(variant_dict['@allele-fraction']) > 0.9 else '0/1'
             alt = int(round(int(dp) * float(af)))
-            ref = dp - alt
+            ref = int(dp) - alt
             ad = '{},{}'.format(ref, alt)
             variant_name = '{}:c.{}'.format(transcript, cds_effect)
 
@@ -1015,7 +1022,7 @@ def process(results_payload_dict, args):
         effective_date = results_payload_dict['FinalReport']['PMI']['CollDate']
 
     report = create_report(results_payload_dict, args.project_id,
-                           subject_id, specimen_id, specimen_name, effective_date, args.file_url)
+                           subject_id, specimen_id, specimen_name, effective_date, args.file_url, args.sequence_id)
 
     observations = []
     if ('short-variants' in results_payload_dict['variant-report'].keys()):
@@ -1105,6 +1112,8 @@ def main():
                         required=False, help='Path to write the PDF file', default=None)
     parser.add_argument('-v, --vcf-output', dest='vcf_out_file',
                         required=False, help='Path to write the VCF file', default=None)
+    parser.add_argument('-i, --sequence-id', dest='sequence_id',
+                        required=False, help='The sequence id to add to the Diagnostic Report', default=None)
 
     args = parser.parse_args()
     logger.info('Converting XML to FHIR with args: %s',
