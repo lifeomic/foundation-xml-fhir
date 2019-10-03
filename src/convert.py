@@ -1038,7 +1038,7 @@ def process(results_payload_dict, args):
             specimen_name = get_specimen_name(results_payload_dict)
             write_vcf(variants, specimen_name, args.fasta, args.genes, args.vcf_out_file)
 
-        observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
+        observations = list(map(create_observation(args.fasta, args.genes, args.project_id, subject_id, specimen_id, specimen_name, sequence_id or args.sequence_id),
                             variants))
 
     if ('copy-number-alterations' in results_payload_dict['variant-report'].keys()):
@@ -1050,7 +1050,7 @@ def process(results_payload_dict, args):
             cnv_dict = results_payload_dict['variant-report']['copy-number-alterations']['copy-number-alteration']
             cnvs = cnv_dict if isinstance(cnv_dict, list) else [cnv_dict]
 
-        observations.extend(list(map(create_copy_number_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
+        observations.extend(list(map(create_copy_number_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id or args.sequence_id),
                                 cnvs)))
 
     if ('rearrangements' in results_payload_dict['variant-report'].keys()):
@@ -1062,19 +1062,19 @@ def process(results_payload_dict, args):
             rearrangement_dict = results_payload_dict['variant-report']['rearrangements']['rearrangement']
             rearrangements = rearrangement_dict if isinstance(rearrangement_dict, list) else [rearrangement_dict]
 
-        observations.extend(list(map(create_rearrangement_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id),
+        observations.extend(list(map(create_rearrangement_observation(args.project_id, subject_id, specimen_id, specimen_name, sequence_id or args.sequence_id),
                                 rearrangements)))
     if ('biomarkers' in results_payload_dict['variant-report'].keys()):
 
         if (results_payload_dict['variant-report']['biomarkers'] is not None and
             'microsatellite-instability' in results_payload_dict['variant-report']['biomarkers'].keys()):
             microsatellite_dict = results_payload_dict['variant-report']['biomarkers']['microsatellite-instability']
-            observations.append(create_microsatallite_observation(args.project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id)(microsatellite_dict))
+            observations.append(create_microsatallite_observation(args.project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id or args.sequence_id)(microsatellite_dict))
 
         if (results_payload_dict['variant-report']['biomarkers'] is not None and
             'tumor-mutation-burden' in results_payload_dict['variant-report']['biomarkers'].keys()):
             tumor_dict = results_payload_dict['variant-report']['biomarkers']['tumor-mutation-burden']
-            observations.append(create_tumor_mutation_observation(args.project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id)(tumor_dict))
+            observations.append(create_tumor_mutation_observation(args.project_id, subject_id, specimen_id, effective_date, specimen_name, sequence_id or args.sequence_id)(tumor_dict))
 
 
     report['result'] = [
