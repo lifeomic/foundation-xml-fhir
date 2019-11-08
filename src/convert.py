@@ -970,7 +970,7 @@ def write_vcf(variants, specimen_name, fasta, genes, vcf_out_file):
 
         status = {
             'known': 'Pathogenic',
-            'likley': 'Likely_pathogenic',
+            'likely': 'Likely_pathogenic',
             'unknown': 'Uncertain_significance',
             'ambiguous': 'other'
         }
