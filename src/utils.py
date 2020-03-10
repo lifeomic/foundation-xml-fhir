@@ -124,9 +124,9 @@ def parse_splice(cdsEffect, position, strand, fasta):
                 mylist[1] = ref + mylist[1]
         elif mytype == 'del':
         #    startPos = startPos - 1
-            if mylen != seqlen:
-                raise ValueError('ERROR: length of cds range does not match the given deleted sequence  [{}]'.format(cdsEffect))
-            ref = getSequence(genome, chr, startPos, startPos+mylen)
+        #    if mylen != seqlen:
+        #        raise ValueError('ERROR: length of cds range does not match the given deleted sequence  [{}]'.format(cdsEffect))
+            ref = getSequence(genome, chr, startPos, startPos+seqlen)
             mylist[1] = ref[0]
         elif mytype == 'dup':
             if mylen != seqlen:
