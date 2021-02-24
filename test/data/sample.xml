@@ -1060,9 +1060,6 @@
 				<short-variant allele-fraction="0.2600" cds-effect="233_234ins42" depth="1014" equivocal="false" functional-effect="nonframeshift" gene="CDKN2A" percent-reads="26.00" position="chr9:21971126" protein-effect="L78_T79ins14" status="unknown" strand="-" transcript="NM_000077">
 					<dna-evidence sample="SA-1612348"/>
 				</short-variant>
-        <short-variant allele-fraction="0.1425" cds-effect="119-156_197+46del281" depth="919" equivocal="false" functional-effect="splice" gene="NOTCH3" percent-reads="14.25" position="chr19:15308264" protein-effect="splice site 119-156_197+46del281" status="likely" strand="-" transcript="NM_000435">
-                  <dna-evidence sample="SQ-US0988543.01-1" />
-        </short-variant>
 			</short-variants>
 			<copy-number-alterations>
 				<copy-number-alteration copy-number="44" equivocal="false" gene="CDK4" number-of-exons="7 of 7" position="chr12:58093932-58188144" ratio="11.63" status="known" type="amplification">
