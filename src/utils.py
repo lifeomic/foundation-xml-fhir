@@ -102,10 +102,10 @@ def parse_splice(cdsEffect, position, strand, fasta):
             mylen = abs(int(sub[0]) - int(sub[1]))+1
         else:
             if sub[0] != '0' and sub[1] != '0':
-                if int(main[1]) - int(main[0]) == 1:
-                    mylen = seqlen
-                else:
-                    raise ValueError('ERROR: main position has to match for both intronic else one of them must be an exon: ')
+                #if int(main[1]) - int(main[0]) == 1:
+                mylen = seqlen
+                #else:
+                    #raise ValueError('ERROR: main position has to match for both intronic else one of them must be an exon: ')
             elif sub[0] == '0':
                 mylen = abs(int(main[0]) - int(main[1]))+1
                 mylen += abs(int(sub[1]))
@@ -142,4 +142,3 @@ def parse_splice(cdsEffect, position, strand, fasta):
         return (chr, startPos, ref, mylist[1])
     else:
         raise ValueError('ERROR: syntax dont fit')
-
