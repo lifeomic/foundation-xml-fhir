@@ -131,8 +131,8 @@ def parse_splice(cdsEffect, position, strand, fasta):
             ref = getSequence(genome, chr, startPos, startPos+mylen)
             mylist[1] = ref
             ref = ref[0]
-        elif main[0].startswith('*') or main[1].startswith('*'):
-            raise ValueError('ERROR: insert+delete on 5UTR, unable to resolve sequence [{}]'.format(cdsEffect))
+        #elif main[0].startswith('*') or main[1].startswith('*'):
+        #    raise ValueError('ERROR: insert+delete on 5UTR, unable to resolve sequence [{}]'.format(cdsEffect))
         else:
             ref = getSequence(genome, chr, startPos, startPos+mylen-1)
 
