@@ -520,7 +520,9 @@ def create_copy_number_observation(project_id, subject_id, specimen_id, specimen
 
 def hgvs_2_vcf (variant_name, genes, functional_effect, cds_effect, position_value, strand, fasta):
     if functional_effect in ['splice', 'frameshift', 'nonframeshift']:
-        return parse_splice(cds_effect, position_value, strand, fasta)
+      if cds_effect in ['2169_*27&gt;T','2169_*27>T']:
+        cds_effect = '2169_*27del48'
+      return parse_splice(cds_effect, position_value, strand, fasta)
     else:
         try:
             return parse_hgvs(variant_name, fasta, genes)
